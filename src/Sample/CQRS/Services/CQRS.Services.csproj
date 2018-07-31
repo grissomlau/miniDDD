@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="DDD.CQRS.Services.csproj.bak" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Jimu.Server.EventBus.MasstransitIntegration" Version="0.2.6" />
+    <PackageReference Include="MassTransit" Version="4.0.1" />
+    <PackageReference Include="MassTransit.Autofac" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\CQRS.Domain.csproj" />
+    <ProjectReference Include="..\IServices\CQRS.IServices.csproj" />
+  </ItemGroup>
+
+</Project>

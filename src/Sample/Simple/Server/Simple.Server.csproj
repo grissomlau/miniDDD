@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <ApplicationIcon />
+    <OutputType>Exe</OutputType>
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Jimu.Common.Discovery.ConsulIntegration" Version="0.2.6" />
+    <PackageReference Include="Jimu.Server" Version="0.2.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\MiniDDD.SqlSugar\MiniDDD.UnitOfWork.SqlSugar.csproj" />
+    <ProjectReference Include="..\Infrastruction\Repository\EF\Simple.Repository.EF.csproj" />
+    <ProjectReference Include="..\Infrastruction\Repository\SqlSugar\Simple.Repository.SqlSugar.csproj" />
+    <ProjectReference Include="..\IServices\Simple.IServices.csproj" />
+    <ProjectReference Include="..\Services\Simple.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="dd" /></VisualStudio></ProjectExtensions>
+
+</Project>

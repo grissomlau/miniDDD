@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DbModule.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\MiniDDD\MiniDDD.csproj" />
+    <ProjectReference Include="..\Domain\Simple.Domain.csproj" />
+    <ProjectReference Include="..\Infrastruction\Model\Simple.Model.csproj" />
+    <ProjectReference Include="..\IServices\Simple.IServices.csproj" />
+  </ItemGroup>
+
+</Project>
