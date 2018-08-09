@@ -20,8 +20,8 @@ namespace DDD.CQRS.Server
                     QueueName = "Jimu_test",
                     SendEndPointUri = new Uri("rabbitmq://localhost/Jimu_test")
                 })
-                .UseDotNettyForTransfer("127.0.0.1", 8007, server => { })
-                .UseConsulForDiscovery("127.0.0.1", 8500, "JimuService", "127.0.0.1:8007")
+                .UseDotNettyForTransfer("127.0.0.1", 8006, server => { })
+                .UseConsulForDiscovery("127.0.0.1", 8500, "JimuService", "127.0.0.1:8006")
                 ;
             using (var host = builder.Build())
             {
