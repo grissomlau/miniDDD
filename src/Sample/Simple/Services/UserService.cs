@@ -1,7 +1,6 @@
 ﻿using DDD.Simple.Domain;
 using DDD.Simple.IServices;
 using DDD.Simple.IServices.DTO;
-using Jimu;
 using MiniDDD;
 using MiniDDD.UnitOfWork;
 using System;
@@ -49,14 +48,13 @@ namespace DDD.Simple.Services
         readonly IRepository<User, Guid> _userRepository;
         readonly IRepository<Order, Guid> _orderRepository;
         readonly Guid _id;
-        readonly JimuPayload _payload;
-        public UserService(IUnitOfWork unitOfWork, IRepository<User, Guid> userRepository, IRepository<Order, Guid> orderRepository, JimuPayload payload, ITypeConvertProvider typeConvertProvider, ISerializer serializer)
+        //readonly JimuPayload _payload;
+        public UserService(IUnitOfWork unitOfWork, IRepository<User, Guid> userRepository, IRepository<Order, Guid> orderRepository)
         {
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
             _orderRepository = orderRepository;
             _id = Guid.NewGuid();
-            _payload = payload;
         }
         public Task<Guid> CreateUser(UserCreateReq userCreateReq)
         {
@@ -91,33 +89,33 @@ namespace DDD.Simple.Services
             public string Id { get; set; }
             public byte[] Data { get; set; }
         }
-        public async Task<JimuFile> GetFile()
-        {
-            //HttpResponseMessage msg = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-            using (var ms = new MemoryStream())
-            {
-                using (var sr = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "/files/test.xlsx")))
-                {
-                    sr.BaseStream.CopyTo(ms);
-                    var bytes = await Task.FromResult(ms.ToArray());
-                    //var dy = new Test { Id = "1", Data = bytes };
-                    //var cb = _serializer.Serialize<string>(dy);
-                    //var bb = (Test)_serializer.Deserialize<string>(cb, typeof(Test));
-                    ////var reb = _serializer.Deserialize(bb.Data, typeof(byte[]));
-                    //var reb = Encoding.UTF8.GetBytes("anVldCB0ZXN0");
-                    return new JimuFile("test.xlsx", bytes);
-                    //msg.Content = new StreamContent(sr.BaseStream);
-                }
-                //return msg;
+        //public async Task<JimuFile> GetFile()
+        //{
+        //    //HttpResponseMessage msg = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+        //    using (var ms = new MemoryStream())
+        //    {
+        //        using (var sr = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "/files/test.xlsx")))
+        //        {
+        //            sr.BaseStream.CopyTo(ms);
+        //            var bytes = await Task.FromResult(ms.ToArray());
+        //            //var dy = new Test { Id = "1", Data = bytes };
+        //            //var cb = _serializer.Serialize<string>(dy);
+        //            //var bb = (Test)_serializer.Deserialize<string>(cb, typeof(Test));
+        //            ////var reb = _serializer.Deserialize(bb.Data, typeof(byte[]));
+        //            //var reb = Encoding.UTF8.GetBytes("anVldCB0ZXN0");
+        //            return new JimuFile("test.xlsx", bytes);
+        //            //msg.Content = new StreamContent(sr.BaseStream);
+        //        }
+        //        //return msg;
 
-            }
-        }
+        //    }
+        //}
 
         public UserDto GetUser(Guid id)
         {
             Console.WriteLine($"GetUser guid is {_id.ToString()}");
-            Console.WriteLine($"GetUser payload username is {_payload.Items["username"]}");
-            Console.WriteLine($"GetUser payload role is {_payload.Items["role"]}");
+            //Console.WriteLine($"GetUser payload username is {_payload.Items["username"]}");
+            //Console.WriteLine($"GetUser payload role is {_payload.Items["role"]}");
             var user = _userRepository.Get(id);
             return new UserDto
             {
@@ -145,20 +143,20 @@ namespace DDD.Simple.Services
             }
         }
 
-        public Task UploadFiles(List<JimuFile> files)
-        {
-            foreach (var file in files)
-            {
-                using (MemoryStream ms = new MemoryStream(file.Data))
-                {
-                    using (var sw = new StreamWriter("c://files/" + file.FileName, false))
-                    {
-                        ms.CopyTo(sw.BaseStream);
-                    }
-                }
-            }
-            Debug.WriteLine("files =======>" + files.Count);
-            return Task.CompletedTask;
-        }
+        //public Task UploadFiles(List<JimuFile> files)
+        //{
+        //    foreach (var file in files)
+        //    {
+        //        using (MemoryStream ms = new MemoryStream(file.Data))
+        //        {
+        //            using (var sw = new StreamWriter("c://files/" + file.FileName, false))
+        //            {
+        //                ms.CopyTo(sw.BaseStream);
+        //            }
+        //        }
+        //    }
+        //    Debug.WriteLine("files =======>" + files.Count);
+        //    return Task.CompletedTask;
+        //}
     }
 }

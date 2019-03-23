@@ -2,11 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>grissom</Authors>
+    <Company>grissom</Company>
+    <Description>SqlSugar repository for MiniDDD</Description>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/grissomlau/miniDDD</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/grissomlau/miniDDD</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.8.0" />
-    <PackageReference Include="sqlSugarCore" Version="4.6.4.9" />
+    <Compile Remove="DefaultModule.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="sqlSugarCore" Version="4.9.9.3" />
   </ItemGroup>
 
   <ItemGroup>

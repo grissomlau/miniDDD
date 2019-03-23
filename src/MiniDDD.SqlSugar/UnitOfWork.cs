@@ -12,9 +12,9 @@ namespace MiniDDD.UnitOfWork.SqlSugar
         /// </summary>
         //private ThreadLocal<SqlClient<SqlSugarClient>> _tlSqlClient;
         private SqlClient<Sugar.SqlSugarClient> _sqlClient;
-        private readonly DbContextOption _options;
+        private readonly DbContextOptions _options;
 
-        public UnitOfWork(DbContextOption options)
+        public UnitOfWork(DbContextOptions options)
         {
             _options = options;
         }

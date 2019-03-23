@@ -41,7 +41,7 @@ namespace DDD.Simple.Server
             //Log4netOptions log4NetOptions = Configuration.GetSection("Log4netOptions").Get<Log4netOptions>();
             //DbOptions dbOptions = Configuration.GetSection("DbOptions").Get<DbOptions>();
 
-            DbContextOption dbContextOption = Configuration.GetSection("DbContextOption").Get<DbContextOption>();
+            DbContextOptions dbContextOption = Configuration.GetSection("DbContextOption").Get<DbContextOptions>();
 
 
             var containerBuilder = new ContainerBuilder();

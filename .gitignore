@@ -38,3 +38,6 @@
 /src/Sample/Simple/Services/bin/Debug/netcoreapp2.0
 /src/Sample/Simple/Services/obj
 /src/Sample/CQRS/ConAppServer/bin/Debug/netcoreapp2.0 - 副本
+/src/Sample/Simple/ApiGateway/obj
+/src/Sample/Simple/ApiGateway/bin/Debug/netcoreapp2.0
+/src/Sample/ApiGateway2
