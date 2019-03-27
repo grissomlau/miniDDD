@@ -21,7 +21,7 @@ namespace MiniDDD.UnitOfWork.SqlSugar
             _options = options;
             _logAction = logAction;
         }
-        public void BeginTran()
+        public void BeginTransaction()
         {
             var sqlClient = GetSqlClient();
             if (sqlClient?.Client != null)
@@ -32,7 +32,7 @@ namespace MiniDDD.UnitOfWork.SqlSugar
             }
         }
 
-        public void CommitTran()
+        public void Commit()
         {
             if (_sqlClient?.Client != null && _sqlClient.IsBeginTran)
             {
@@ -75,7 +75,7 @@ namespace MiniDDD.UnitOfWork.SqlSugar
             return _sqlClient;
         }
 
-        public void RollbackTran()
+        public void Rollback()
         {
             if (_sqlClient?.Client != null && _sqlClient.IsBeginTran)
             {

@@ -58,7 +58,7 @@ namespace DDD.Simple.Services
         }
         public Task<Guid> CreateUser(UserCreateReq userCreateReq)
         {
-            _unitOfWork.BeginTran();
+            _unitOfWork.BeginTransaction();
             try
             {
                 var user = new User(Guid.NewGuid(), userCreateReq.Name, userCreateReq.Email);
@@ -69,12 +69,12 @@ namespace DDD.Simple.Services
                 // order
                 var order = new Order(100);
                 _orderRepository.Save(order);
-                _unitOfWork.CommitTran();
+                _unitOfWork.Commit();
                 return Task.FromResult(user.Id);
             }
             catch (Exception ex)
             {
-                _unitOfWork.RollbackTran();
+                _unitOfWork.Rollback();
                 throw ex;
             }
         }
@@ -129,16 +129,16 @@ namespace DDD.Simple.Services
         {
             var user = _userRepository.Get(userNameChangeReq.UserId);
             user.ChangeName(userNameChangeReq.Name);
-            _unitOfWork.BeginTran();
+            _unitOfWork.BeginTransaction();
             try
             {
                 _userRepository.Save(user);
-                _unitOfWork.CommitTran();
+                _unitOfWork.Commit();
                 return Task.FromResult(user.Id);
             }
             catch (Exception ex)
             {
-                _unitOfWork.RollbackTran();
+                _unitOfWork.Rollback();
                 throw ex;
             }
         }

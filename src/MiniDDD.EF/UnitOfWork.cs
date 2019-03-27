@@ -10,12 +10,12 @@ namespace MiniDDD.UnitOfWork.EF
         {
             _sqlClient = new SqlClient<DbContext>(context);
         }
-        public void BeginTran()
+        public void BeginTransaction()
         {
             _sqlClient.IsBeginTran = true;
         }
 
-        public void CommitTran()
+        public void Commit()
         {
             _sqlClient.IsBeginTran = false;
             _sqlClient.Client.SaveChanges();
@@ -30,7 +30,7 @@ namespace MiniDDD.UnitOfWork.EF
             return _sqlClient as SqlClient<T>;
         }
 
-        public void RollbackTran()
+        public void Rollback()
         {
             _sqlClient.IsBeginTran = false;
             //_sqlClient.Client.Database.BeginTransaction();

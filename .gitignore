@@ -43,3 +43,6 @@
 /src/Sample/Simple/ApiGateway/obj
 /src/Sample/Simple/ApiGateway/bin/Debug/netcoreapp2.0
 /src/Sample/ApiGateway2
+/src/MiniDDD/bin
+/src/MiniDDD.EF/bin
+/src/MiniDDD.SqlSugar/bin
