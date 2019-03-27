@@ -1,5 +1,6 @@
 ﻿using System;
 using Sugar = SqlSugar;
+using System.Linq;
 
 namespace MiniDDD.UnitOfWork.SqlSugar
 {
@@ -13,10 +14,12 @@ namespace MiniDDD.UnitOfWork.SqlSugar
         //private ThreadLocal<SqlClient<SqlSugarClient>> _tlSqlClient;
         private SqlClient<Sugar.SqlSugarClient> _sqlClient;
         private readonly DbContextOptions _options;
+        private readonly Action<string> _logAction;
 
-        public UnitOfWork(DbContextOptions options)
+        public UnitOfWork(DbContextOptions options, Action<string> logAction)
         {
             _options = options;
+            _logAction = logAction;
         }
         public void BeginTran()
         {
@@ -54,13 +57,21 @@ namespace MiniDDD.UnitOfWork.SqlSugar
                     InitKeyType = Sugar.InitKeyType.SystemTable
 
                 });
-                //client.Aop.OnLogExecuting = (sql, pars) =>
-                //{
-                //    Console.WriteLine($"SQL: {sql}");
-                //};
+                if (_logAction != null)
+                {
+                    client.Aop.OnLogExecuting = (sql, pars) =>
+                    {
+                        var paraStr = "";
+                        if (pars != null && pars.Any())
+                        {
+                            paraStr = Environment.NewLine + ", parameters: " + string.Join(Environment.NewLine + ",", pars.Select(x => $"DbType: {x.DbType} - Name: { x.ParameterName} - Value: { x.Value}"));
+                        }
+                        _logAction($"{sql}{paraStr}");
+                        //Console.WriteLine($"SQL: {sql}");
+                    };
+                }
                 _sqlClient = new SqlClient<Sugar.SqlSugarClient>(client);
             }
-            //Console.WriteLine("sqlclient id is " + _sqlClient.Id);
             return _sqlClient;
         }
 

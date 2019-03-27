@@ -6,9 +6,9 @@ namespace MiniDDD.UnitOfWork.EF
     public class UnitOfWork : IUnitOfWork
     {
         private readonly SqlClient<DbContext> _sqlClient;
-        public UnitOfWork(DefaultDbContext dbContext)
+        public UnitOfWork(DefaultDbContext context)
         {
-            _sqlClient = new SqlClient<DbContext>(dbContext);
+            _sqlClient = new SqlClient<DbContext>(context);
         }
         public void BeginTran()
         {

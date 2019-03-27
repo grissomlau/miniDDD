@@ -7,9 +7,11 @@
 /src/MiniDDD/obj
 /src/MiniDDD.EF/bin/Debug/netstandard2.0
 /src/MiniDDD.EF/obj
+/src/MiniDDD/bin/Debug
 *.user
 /src/MiniDDD.SqlSugar/bin/Debug/netstandard2.0
 /src/MiniDDD.SqlSugar/obj
+/src/MiniDDD.SqlSugar/bin
 /src/Sample/ApiGateway/bin
 /src/Sample/ApiGateway/log
 /src/Sample/ApiGateway/obj

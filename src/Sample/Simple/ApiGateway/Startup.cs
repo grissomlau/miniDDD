@@ -15,9 +15,12 @@ using Autofac.Builder;
 using Autofac.Core;
 using Autofac.Util;
 using Autofac.Extensions.DependencyInjection;
-using DDD.Simple.Repository.EF;
+//using DDD.Simple.Repository.EF;
 using Microsoft.Extensions.Configuration.Json;
 using MiniDDD.UnitOfWork;
+//using MiniDDD.UnitOfWork.EF;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace ApiGateway
 {
@@ -60,6 +63,7 @@ namespace ApiGateway
             var baseType = typeof(IAutoInject);
             var assembly = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "/Simple.Services.dll");
             var assembly2 = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "/Simple.Repository.EF.dll");
+            //var assembly2 = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "/Simple.Repository.SqlSugar.dll");
 
             builder.RegisterAssemblyTypes(assembly)
                             .Where(t => baseType.IsAssignableFrom(t) && t != baseType)
@@ -71,7 +75,30 @@ namespace ApiGateway
                      .Where(t => repoType.IsAssignableFrom(t) && t != repoType)
                      .AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterAssemblyModules(assembly2);
-            builder.RegisterModule<MiniDDD.UnitOfWork.EF.DefaultModule>();
+
+            // using ef
+
+            builder.RegisterType<MiniDDD.UnitOfWork.EF.UnitOfWork>().As<IUnitOfWork>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType<MiniDDD.UnitOfWork.EF.DefaultDbContext>()
+                .WithParameter("tableModelAssemblyName", null)
+                .WithParameter("logAction", new Action<LogLevel, string>((logLevel, log) =>
+                {
+                    Debug.WriteLine($"{logLevel} - {log}");
+                }))
+                .WithParameter("logLevel", LogLevel.Debug)
+                .SingleInstance();
+
+            // using sqlsugar
+            /*builder.RegisterType<DbContextOptions>().SingleInstance();
+
+            builder.RegisterType<MiniDDD.UnitOfWork.SqlSugar.UnitOfWork>().As<IUnitOfWork>()
+                .WithParameter("logAction", new Action<string>((sql) =>
+                {
+                    Debug.WriteLine("Sugar: " + sql);
+                }))
+                .AsImplementedInterfaces().InstancePerLifetimeScope();
+                */
+
 
 
             //       Configuration
