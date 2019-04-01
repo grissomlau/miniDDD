@@ -17,6 +17,19 @@ namespace Simple.Repository.Dapper
         readonly DbConnection _dbConnection;
         readonly SqlClient<DbConnection> _sqlClient;
         DDD.Simple.Model.User _user;
+
+        private DbConnection DbCon
+        {
+            get
+            {
+                if (_dbConnection != null
+                    & (_dbConnection.State != System.Data.ConnectionState.Open || _dbConnection.State != System.Data.ConnectionState.Executing))
+                {
+                    _dbConnection.Open();
+                }
+                return _dbConnection;
+            }
+        }
         public UserRepository(IUnitOfWork unitOfWork)
         {
             _sqlClient = unitOfWork.GetSqlClient<DbConnection>();
@@ -24,10 +37,10 @@ namespace Simple.Repository.Dapper
         }
         public override DDD.Simple.Domain.User Get(Guid key)
         {
-            var userModel = _dbConnection.QuerySingleOrDefault<DDD.Simple.Model.User>("Select * From user Where Id = @id", new { id = key });
+            var userModel = DbCon.QuerySingleOrDefault<DDD.Simple.Model.User>("Select * From user Where Id = @id", new { id = key });
             if (userModel == null)
                 return null;
-            var userFriendModels = _dbConnection.Query<DDD.Simple.Model.UserFriend>("Select * From userfriend where UserId = @userid", new { userid = key });
+            var userFriendModels = DbCon.Query<DDD.Simple.Model.UserFriend>("Select * From userfriend where UserId = @userid", new { userid = key });
             var user = DDD.Simple.Domain.User.Load(userModel.Id, userModel.Name, userModel.Email, userFriendModels.Select(x => x.FriendUserId).ToList());
             return user;
         }
@@ -42,7 +55,7 @@ namespace Simple.Repository.Dapper
         {
             if (_user == null)
             {
-                _user = _dbConnection.QuerySingleOrDefault<DDD.Simple.Model.User>("Select * From user Where Id = @id", new { id = e.AggregateRootKey });
+                _user = DbCon.QuerySingleOrDefault<DDD.Simple.Model.User>("Select * From user Where Id = @id", new { id = e.AggregateRootKey });
             }
 
             return _user ?? (_user = new DDD.Simple.Model.User());
@@ -55,7 +68,7 @@ namespace Simple.Repository.Dapper
             userModel.Id = e.Id;
             userModel.Name = e.Name;
             userModel.Email = e.Email;
-            _dbConnection.Execute("insert into user(Id, Name, Email) values(@id,@name, @email)", new { id = e.AggregateRootKey, name = e.Name, email = e.Email });
+            DbCon.Execute("insert into user(Id, Name, Email) values(@id,@name, @email)", new { id = e.AggregateRootKey, name = e.Name, email = e.Email });
             //_dbConnection.Set<DDD.Simple.Model.User>().Add(userModel);
             //this._dbContext.Entry<Model.User>(userModel).Reload();
             //_dbContext.Add(userModel);
@@ -66,7 +79,7 @@ namespace Simple.Repository.Dapper
         {
             var userModel = GetUserModel(e);
             userModel.Name = e.Name;
-            _dbConnection.Execute("update user set Name = @name where id = @id", new { name = e.Name, id = e.AggregateRootKey });
+            DbCon.Execute("update user set Name = @name where id = @id", new { name = e.Name, id = e.AggregateRootKey });
             //var entry = _dbConnection.Entry(userModel);
 
             //if (entry.State != EntityState.Added)
