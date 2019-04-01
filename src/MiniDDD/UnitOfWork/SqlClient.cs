@@ -13,6 +13,5 @@ namespace MiniDDD.UnitOfWork
             Client = client;
             Id = Guid.NewGuid();
         }
-        event Action<string> OnExportingSql;
     }
 }
