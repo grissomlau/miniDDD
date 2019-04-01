@@ -2,12 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Authors>grissom</Authors>
+    <Authors>grissomlau@qq.com</Authors>
     <PackageProjectUrl>https://github.com/grissomlau/miniDDD</PackageProjectUrl>
     <RepositoryUrl>https://github.com/grissomlau/miniDDD</RepositoryUrl>
     <Description>EF repository for MiniDDD</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
+    <Company>grissomlau@qq.com</Company>
   </PropertyGroup>
 
   <ItemGroup>

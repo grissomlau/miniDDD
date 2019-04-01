@@ -12,12 +12,12 @@ namespace MiniDDD.UnitOfWork.EF
         }
         public void BeginTransaction()
         {
-            _sqlClient.IsBeginTran = true;
+            _sqlClient.IsOpenedTransaction = true;
         }
 
         public void Commit()
         {
-            _sqlClient.IsBeginTran = false;
+            _sqlClient.IsOpenedTransaction = false;
             _sqlClient.Client.SaveChanges();
         }
 
@@ -32,7 +32,7 @@ namespace MiniDDD.UnitOfWork.EF
 
         public void Rollback()
         {
-            _sqlClient.IsBeginTran = false;
+            _sqlClient.IsOpenedTransaction = false;
             //_sqlClient.Client.Database.BeginTransaction();
         }
     }

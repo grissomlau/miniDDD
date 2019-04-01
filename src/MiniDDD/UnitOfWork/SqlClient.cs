@@ -5,7 +5,7 @@ namespace MiniDDD.UnitOfWork
     public class SqlClient<T> where T : class
     {
         public T Client { get; set; }
-        public bool IsBeginTran { get; set; }
+        public bool IsOpenedTransaction { get; set; }
         public Guid Id { get; set; }
 
         public SqlClient(T client)

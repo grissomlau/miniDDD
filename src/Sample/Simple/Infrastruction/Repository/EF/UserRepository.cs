@@ -32,7 +32,7 @@ namespace DDD.Simple.Repository.EF
         public override void Save(User aggreateRoot)
         {
             base.Save(aggreateRoot);
-            if (!_sqlClient.IsBeginTran)
+            if (!_sqlClient.IsOpenedTransaction)
             {
                 _sqlClient.Client.SaveChanges();
             }

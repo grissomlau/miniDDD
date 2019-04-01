@@ -37,7 +37,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple.Repository.EF", "Sam
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple.Repository.SqlSugar", "Sample\Simple\Infrastruction\Repository\SqlSugar\Simple.Repository.SqlSugar.csproj", "{9A32AB6C-716A-4E0F-B5AE-1A2C68A27669}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "Sample\Simple\ApiGateway\ApiGateway.csproj", "{BB8EFB62-B041-404B-A406-01175B2523A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway", "Sample\Simple\ApiGateway\ApiGateway.csproj", "{BB8EFB62-B041-404B-A406-01175B2523A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniDDD.UnitOfWork.Dapper", "MiniDDD.UnitOfWork.Dapper\MiniDDD.UnitOfWork.Dapper.csproj", "{8691C2CC-06F8-4444-B7AF-DDECC539687F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Repository.Dapper", "Sample\Simple\Infrastruction\Repository\Simple.Repository.Dapper\Simple.Repository.Dapper.csproj", "{53A34563-9312-4F27-B0EC-BA0378CBE893}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +105,14 @@ Global
 		{BB8EFB62-B041-404B-A406-01175B2523A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB8EFB62-B041-404B-A406-01175B2523A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB8EFB62-B041-404B-A406-01175B2523A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8691C2CC-06F8-4444-B7AF-DDECC539687F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8691C2CC-06F8-4444-B7AF-DDECC539687F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8691C2CC-06F8-4444-B7AF-DDECC539687F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8691C2CC-06F8-4444-B7AF-DDECC539687F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53A34563-9312-4F27-B0EC-BA0378CBE893}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53A34563-9312-4F27-B0EC-BA0378CBE893}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53A34563-9312-4F27-B0EC-BA0378CBE893}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53A34563-9312-4F27-B0EC-BA0378CBE893}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,6 +132,7 @@ Global
 		{1C582EC4-FB22-441D-BD70-893C95EB2259} = {5F697C44-8BAC-4204-9D93-3AEC84278B52}
 		{9A32AB6C-716A-4E0F-B5AE-1A2C68A27669} = {5F697C44-8BAC-4204-9D93-3AEC84278B52}
 		{BB8EFB62-B041-404B-A406-01175B2523A0} = {7BA76CD2-3FAB-40DD-AB85-4ADB58229AD6}
+		{53A34563-9312-4F27-B0EC-BA0378CBE893} = {5F697C44-8BAC-4204-9D93-3AEC84278B52}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E486F5AA-69D5-45A9-AE8A-C22B3E94BF74}

@@ -26,16 +26,17 @@ namespace MiniDDD.UnitOfWork.SqlSugar
             var sqlClient = GetSqlClient();
             if (sqlClient?.Client != null)
             {
-                if (!sqlClient.IsBeginTran)
+                if (!sqlClient.IsOpenedTransaction)
                     sqlClient.Client.Ado.BeginTran();
-                sqlClient.IsBeginTran = true;
+                sqlClient.IsOpenedTransaction = true;
             }
         }
 
         public void Commit()
         {
-            if (_sqlClient?.Client != null && _sqlClient.IsBeginTran)
+            if (_sqlClient?.Client != null && _sqlClient.IsOpenedTransaction)
             {
+                _sqlClient.IsOpenedTransaction = false;
                 _sqlClient.Client.Ado.CommitTran();
             }
         }
@@ -77,7 +78,7 @@ namespace MiniDDD.UnitOfWork.SqlSugar
 
         public void Rollback()
         {
-            if (_sqlClient?.Client != null && _sqlClient.IsBeginTran)
+            if (_sqlClient?.Client != null && _sqlClient.IsOpenedTransaction)
             {
                 _sqlClient.Client.Ado.RollbackTran();
             }

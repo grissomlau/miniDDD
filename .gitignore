@@ -46,3 +46,8 @@
 /src/MiniDDD/bin
 /src/MiniDDD.EF/bin
 /src/MiniDDD.SqlSugar/bin
+/src/MiniDDD.UnitOfWork.Dapper/bin/Debug/netstandard2.0
+/src/MiniDDD.UnitOfWork.Dapper/obj
+/src/MiniDDD.UnitOfWork.Dapper/bin/Debug
+/src/Sample/Simple/Infrastruction/Repository/Simple.Repository.Dapper/bin/Debug/netstandard2.0
+/src/Sample/Simple/Infrastruction/Repository/Simple.Repository.Dapper/obj
