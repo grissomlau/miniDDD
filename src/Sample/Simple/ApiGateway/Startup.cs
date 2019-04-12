@@ -80,6 +80,7 @@ namespace ApiGateway
             // using dapper
 
             builder.RegisterType<MiniDDD.UnitOfWork.Dapper.UnitOfWork>().As<IUnitOfWork>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType<DbContextOptions>().SingleInstance();
 
 
             // using ef
