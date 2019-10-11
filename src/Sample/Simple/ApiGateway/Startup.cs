@@ -21,6 +21,7 @@ using MiniDDD.UnitOfWork;
 //using MiniDDD.UnitOfWork.EF;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using Microsoft.OpenApi.Models;
 
 namespace ApiGateway
 {
@@ -41,9 +42,12 @@ namespace ApiGateway
             //services.AddMvc();
 
             // Add controllers as services so they'll be resolved.
-            services.AddMvc().AddControllersAsServices();
+            services.AddMvc(o =>
+            {
+                o.EnableEndpointRouting = false;
+            }).AddControllersAsServices();
             services.AddMvcCore()
-    .AddApiExplorer();
+            .AddApiExplorer();
             //services.AddSwaggerGen(c =>
             //{
             //    c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
@@ -51,7 +55,7 @@ namespace ApiGateway
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             }); ;
 
             var builder = new ContainerBuilder();
@@ -62,8 +66,8 @@ namespace ApiGateway
 
             var baseType = typeof(IAutoInject);
             var assembly = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "/Simple.Services.dll");
-            //var assembly2 = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "/Simple.Repository.EF.dll");
-            var assembly2 = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "/Simple.Repository.Dapper.dll");
+            var assembly2 = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "/Simple.Repository.EF.dll");
+            //var assembly2 = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "/Simple.Repository.Dapper.dll");
             //var assembly2 = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "/Simple.Repository.SqlSugar.dll");
 
             builder.RegisterAssemblyTypes(assembly)
@@ -79,32 +83,32 @@ namespace ApiGateway
 
             // using dapper
 
-            builder.RegisterType<MiniDDD.UnitOfWork.Dapper.UnitOfWork>().As<IUnitOfWork>().AsImplementedInterfaces().InstancePerLifetimeScope();
-            builder.RegisterType<DbContextOptions>().SingleInstance();
+            //builder.RegisterType<MiniDDD.UnitOfWork.Dapper.UnitOfWork>().As<IUnitOfWork>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            //builder.RegisterType<DbContextOptions>().SingleInstance();
 
 
             // using ef
 
-            //builder.RegisterType<MiniDDD.UnitOfWork.EF.UnitOfWork>().As<IUnitOfWork>().AsImplementedInterfaces().InstancePerLifetimeScope();
-            //builder.RegisterType<MiniDDD.UnitOfWork.EF.DefaultDbContext>()
-            //    .WithParameter("tableModelAssemblyName", null)
-            //    .WithParameter("logAction", new Action<LogLevel, string>((logLevel, log) =>
-            //    {
-            //        Debug.WriteLine($"{logLevel} - {log}");
-            //    }))
-            //    .WithParameter("logLevel", LogLevel.Debug)
-            //    .SingleInstance();
+            builder.RegisterType<MiniDDD.UnitOfWork.EF.UnitOfWork>().As<IUnitOfWork>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType<MiniDDD.UnitOfWork.EF.DefaultDbContext>()
+                .WithParameter("tableModelAssemblyName", "Simple.Model")
+                .WithParameter("logAction", new Action<LogLevel, string>((logLevel, log) =>
+                {
+                    Debug.WriteLine($"{logLevel} - {log}");
+                }))
+                .WithParameter("logLevel", LogLevel.Debug)
+                .SingleInstance();
 
             // using sqlsugar
-            /*builder.RegisterType<DbContextOptions>().SingleInstance();
+            ///*builder.RegisterType<DbContextOptions>().SingleInstance();
 
-            builder.RegisterType<MiniDDD.UnitOfWork.SqlSugar.UnitOfWork>().As<IUnitOfWork>()
-                .WithParameter("logAction", new Action<string>((sql) =>
-                {
-                    Debug.WriteLine("Sugar: " + sql);
-                }))
-                .AsImplementedInterfaces().InstancePerLifetimeScope();
-                */
+            //builder.RegisterType<MiniDDD.UnitOfWork.SqlSugar.UnitOfWork>().As<IUnitOfWork>()
+            //    .WithParameter("logAction", new Action<string>((sql) =>
+            //    {
+            //        Debug.WriteLine("Sugar: " + sql);
+            //    }))
+            //    .AsImplementedInterfaces().InstancePerLifetimeScope();
+            //    */
 
 
 
@@ -126,18 +130,8 @@ namespace ApiGateway
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseBrowserLink();
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-
             app.UseStaticFiles();
             app.UseSwagger();
             app.UseSwaggerUI(c =>

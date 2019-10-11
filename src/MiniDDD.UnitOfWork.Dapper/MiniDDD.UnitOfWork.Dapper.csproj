@@ -1,22 +1,25 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>grissomlau@qq.com</Authors>
     <Description>dapper repository for MiniDDD</Description>
     <PackageProjectUrl>https://github.com/grissomlau/miniDDD</PackageProjectUrl>
     <RepositoryUrl>https://github.com/grissomlau/miniDDD</RepositoryUrl>
-    <Version>0.2.0</Version>
+    <Version>1.0.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>grissomlau@qq.com</Company>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="1.60.6" />
-    <PackageReference Include="MySql.Data" Version="8.0.15" />
-    <PackageReference Include="Npgsql" Version="4.0.5" />
-    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.18.6" />
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.110" />
+    <PackageReference Include="Dapper" Version="2.0.30" />
+    <PackageReference Include="MySql.Data" Version="8.0.17" />
+    <PackageReference Include="Npgsql" Version="4.1.1" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.31" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.111" />
+    <PackageReference Include="System.DirectoryServices.Protocols" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup>

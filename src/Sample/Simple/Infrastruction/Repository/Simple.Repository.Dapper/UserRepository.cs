@@ -23,7 +23,8 @@ namespace Simple.Repository.Dapper
             get
             {
                 if (_dbConnection != null
-                    & (_dbConnection.State != System.Data.ConnectionState.Open || _dbConnection.State != System.Data.ConnectionState.Executing))
+                    && _dbConnection.State != System.Data.ConnectionState.Open
+                    && _dbConnection.State != System.Data.ConnectionState.Executing)
                 {
                     _dbConnection.Open();
                 }

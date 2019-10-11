@@ -1,0 +1,23 @@
+
+CREATE DATABASE miniddd;
+USE miniddd;
+
+
+CREATE TABLE `User`(
+Id VARCHAR(64) PRIMARY KEY,
+`Name` VARCHAR(64) NULL,
+`Email` VARCHAR(64) null
+)
+;
+
+CREATE TABLE `Order`(
+Id VARCHAR(64) PRIMARY KEY,
+`TotalAmount` DECIMAL(20,2) NOT null DEFAULT 0 ,
+`CreateTime` DATETIME NOT NULL DEFAULT current_timestamp
+);
+
+CREATE TABLE `UserFriend`(
+Id VARCHAR(64) PRIMARY KEY,
+`UserId` VARCHAR(64) ,
+`FriendUserId` VARCHAR(64)
+)

@@ -51,3 +51,15 @@
 /src/MiniDDD.UnitOfWork.Dapper/bin/Debug
 /src/Sample/Simple/Infrastruction/Repository/Simple.Repository.Dapper/bin/Debug/netstandard2.0
 /src/Sample/Simple/Infrastruction/Repository/Simple.Repository.Dapper/obj
+/src/Sample/CQRS/ConAppServer/bin/Debug/netcoreapp3.0
+/src/Sample/CQRS/Domain/bin/Debug/netcoreapp3.0
+/src/Sample/CQRS/IServices/bin/Debug
+/src/Sample/CQRS/Services/bin/Debug/netcoreapp3.0
+/src/Sample/Simple/ApiGateway/bin/Debug/netcoreapp3.0
+/src/Sample/Simple/Domain/bin/Debug/netstandard2.1
+/src/Sample/Simple/Infrastruction/Model/bin/Debug/netstandard2.1
+/src/Sample/Simple/Infrastruction/Repository/EF/bin/Debug/netstandard2.1
+/src/Sample/Simple/Infrastruction/Repository/Simple.Repository.Dapper/bin/Debug/netstandard2.1
+/src/Sample/Simple/Infrastruction/Repository/SqlSugar/bin/Debug/netcoreapp3.0
+/src/Sample/Simple/IServices/bin/Debug
+/src/Sample/Simple/Services/bin/Debug/netcoreapp3.0
