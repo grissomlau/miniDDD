@@ -46,8 +46,9 @@ namespace MiniDDD.UnitOfWork.EF
                     optionsBuilder.UseSqlServer(_option.ConnectionString);
                     break;
                 case DbType.SQLite:
-                    optionsBuilder.UseSqlite(_option.ConnectionString);
-                    break;
+                    throw new NotSupportedException("SQLite not support yet!");
+                    //optionsBuilder.UseSqlite(_option.ConnectionString);
+                    //break;
                 case DbType.PostgreSQL:
                     optionsBuilder.UseNpgsql(_option.ConnectionString);
                     break;
