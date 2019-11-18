@@ -52,8 +52,9 @@ namespace MiniDDD.UnitOfWork.EF
                     optionsBuilder.UseNpgsql(_option.ConnectionString);
                     break;
                 case DbType.Oracle:
-                    optionsBuilder.UseOracle(_option.ConnectionString);
-                    break;
+                    throw new NotSupportedException("oracle not support yet!");
+                //optionsBuilder.UseOracle(_option.ConnectionString);
+                //break;
                 default:
                     optionsBuilder.UseMySql(_option.ConnectionString);
                     break;
