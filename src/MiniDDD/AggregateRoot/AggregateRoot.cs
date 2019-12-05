@@ -12,7 +12,7 @@ namespace MiniDDD
         private readonly Queue<IDomainEvent> _uncommittedEvents = new Queue<IDomainEvent>();
         public IEnumerable<IDomainEvent> UncommittedEvents => _uncommittedEvents;
 
-        public TKey Id { get; protected set; }
+        public TKey Id { get;  set; }
 
         public virtual void Purge()
         {
