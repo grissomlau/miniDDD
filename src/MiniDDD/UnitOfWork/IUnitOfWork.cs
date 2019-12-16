@@ -1,6 +1,8 @@
-﻿namespace MiniDDD.UnitOfWork
+﻿using System;
+
+namespace MiniDDD.UnitOfWork
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         SqlClient<T> GetSqlClient<T>() where T : class;
 

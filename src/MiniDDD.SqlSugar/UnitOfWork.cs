@@ -41,11 +41,6 @@ namespace MiniDDD.UnitOfWork.SqlSugar
             }
         }
 
-        public void Release()
-        {
-            _sqlClient?.Client?.Dispose();
-        }
-
         private SqlClient<Sugar.SqlSugarClient> GetSqlClient()
         {
             if (_sqlClient == null)
@@ -91,6 +86,24 @@ namespace MiniDDD.UnitOfWork.SqlSugar
                 throw new InvalidCastException($"cannot convert {typeof(T)} to SqlSugarClient");
             }
             return GetSqlClient() as SqlClient<T>;
+        }
+
+        public void Dispose()
+        {
+            if (_sqlClient?.Client != null)
+            {
+                try
+                {
+                    _sqlClient.Client.Dispose();
+                }
+                catch
+                {
+                }
+                finally
+                {
+                    _sqlClient = null;
+                }
+            }
         }
     }
 }

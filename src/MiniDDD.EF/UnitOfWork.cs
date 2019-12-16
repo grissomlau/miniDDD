@@ -5,7 +5,7 @@ namespace MiniDDD.UnitOfWork.EF
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly SqlClient<DbContext> _sqlClient;
+        private  SqlClient<DbContext> _sqlClient;
         public UnitOfWork(DefaultDbContext context)
         {
             _sqlClient = new SqlClient<DbContext>(context);
@@ -19,6 +19,24 @@ namespace MiniDDD.UnitOfWork.EF
         {
             _sqlClient.IsOpenedTransaction = false;
             _sqlClient.Client.SaveChanges();
+        }
+
+        public void Dispose()
+        {
+            if (_sqlClient?.Client != null)
+            {
+                try
+                {
+                    _sqlClient.Client.Dispose();
+                }
+                catch
+                {
+                }
+                finally
+                {
+                    _sqlClient = null;
+                }
+            }
         }
 
         public SqlClient<T> GetSqlClient<T>() where T : class

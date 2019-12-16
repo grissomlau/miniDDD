@@ -40,17 +40,17 @@ namespace MiniDDD.UnitOfWork.Dapper
                 if (_dbTransaction != null)
                 {
                     _dbTransaction.Commit();
-                    if (_sqlClient.Client.State != System.Data.ConnectionState.Closed || _sqlClient.Client.State != System.Data.ConnectionState.Broken)
-                    {
-                        try
-                        {
-                            _sqlClient.Client.Close();
-                        }
-                        catch { }
-                    }
+                    //if (_sqlClient.Client.State != System.Data.ConnectionState.Closed || _sqlClient.Client.State != System.Data.ConnectionState.Broken)
+                    //{
+                    //    try
+                    //    {
+                    //        _sqlClient.Client.Close();
+                    //    }
+                    //    catch { }
+                    //}
                 }
-
-                _sqlClient.IsOpenedTransaction = false;
+                //_sqlClient.IsOpenedTransaction = false;
+                Dispose();
             }
         }
 
@@ -60,17 +60,17 @@ namespace MiniDDD.UnitOfWork.Dapper
             {
                 if (_dbTransaction != null)
                 {
-                    _dbTransaction.Commit();
+                    _dbTransaction.Rollback();
                 }
-
-                _sqlClient.IsOpenedTransaction = false;
+                //_sqlClient.IsOpenedTransaction = false;
+                Dispose();
             }
 
         }
 
         private SqlClient<DbConnection> GetSqlClient()
         {
-            if (_sqlClient == null)
+            if (_sqlClient?.Client == null)
             {
                 DbConnection cnn = null;
                 switch (_options.DbType)
@@ -107,6 +107,22 @@ namespace MiniDDD.UnitOfWork.Dapper
             return GetSqlClient() as SqlClient<T>;
         }
 
-
+        public void Dispose()
+        {
+            if (_sqlClient?.Client != null)
+            {
+                try
+                {
+                    _sqlClient.Client.Dispose();
+                }
+                catch
+                {
+                }
+                finally
+                {
+                    _sqlClient = null;
+                }
+            }
+        }
     }
 }

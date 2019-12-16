@@ -2,15 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Description>a lightweight DDD framework for .Net Core</Description>
     <PackageProjectUrl>https://github.com/grissomlau/miniDDD</PackageProjectUrl>
     <RepositoryUrl>https://github.com/grissomlau/miniDDD</RepositoryUrl>
     <Authors>grissomlau@qq.com</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>grissomlau@qq.comgrissomlau@qq.com</Company>
-    <AssemblyVersion>1.0.1.0</AssemblyVersion>
-    <FileVersion>1.0.1.0</FileVersion>
+    <AssemblyVersion>1.0.2.0</AssemblyVersion>
+    <FileVersion>1.0.2.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
