@@ -9,7 +9,7 @@
     <PackageProjectUrl>https://github.com/grissomlau/miniDDD</PackageProjectUrl>
     <RepositoryUrl>https://github.com/grissomlau/miniDDD</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.2</Version>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="sqlSugarCore" Version="5.0.0.10" />
+    <PackageReference Include="sqlSugarCore" Version="5.0.0.13" />
   </ItemGroup>
 
   <ItemGroup>

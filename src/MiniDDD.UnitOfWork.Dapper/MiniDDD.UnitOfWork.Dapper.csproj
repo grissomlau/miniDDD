@@ -6,20 +6,19 @@
     <Description>dapper repository for MiniDDD</Description>
     <PackageProjectUrl>https://github.com/grissomlau/miniDDD</PackageProjectUrl>
     <RepositoryUrl>https://github.com/grissomlau/miniDDD</RepositoryUrl>
-    <Version>1.0.3</Version>
+    <Version>1.1.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>grissomlau@qq.com</Company>
-    <AssemblyVersion>1.0.3.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.0.30" />
-    <PackageReference Include="MySql.Data" Version="8.0.18" />
-    <PackageReference Include="Npgsql" Version="4.1.2" />
-    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.50" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.112" />
-    <PackageReference Include="System.DirectoryServices.Protocols" Version="4.6.0" />
+    <PackageReference Include="Dapper" Version="2.0.35" />
+    <PackageReference Include="MySql.Data" Version="8.0.19" />
+    <PackageReference Include="Npgsql" Version="4.1.3.1" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.60" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.112.1" />
+    <PackageReference Include="System.DirectoryServices.Protocols" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>
