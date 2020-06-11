@@ -1,12 +1,13 @@
 ﻿
 using MiniDDD;
+using System;
 
 namespace DDD.Simple.Domain.Events
 {
-    public class UserNameChanged : DomainEvent
+    public class UserNameChanged : DomainEvent<Guid>
     {
         public string Name { get; set; }
-        public UserNameChanged(object aggregateRootKey, string name) : base(aggregateRootKey)
+        public UserNameChanged(Guid aggregateRootKey, string name) : base(aggregateRootKey)
         {
             Name = name;
         }

@@ -48,7 +48,7 @@ namespace DDD.Simple.Repository.EF
             _dbContext.Add(orderModel);
         }
 
-        private Model.Order GetOrderModel(IDomainEvent e)
+        private Model.Order GetOrderModel(IDomainEvent<Guid> e)
         {
             if (_orderModel == null)
             {

@@ -62,7 +62,7 @@ namespace DDD.Simple.Repository.SqlSugar
             _sqlClient.Client.Updateable(user).UpdateColumns(x => new { x.Name }).ExecuteCommand();
         }
 
-        private Model.User GetUserModel(IDomainEvent e)
+        private Model.User GetUserModel(IDomainEvent<Guid> e)
         {
             if (_user == null)
             {

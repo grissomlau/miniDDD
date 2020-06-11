@@ -47,7 +47,7 @@ namespace Simple.Repository.Dapper
             });
         }
 
-        private DDD.Simple.Model.Order GetOrderModel(IDomainEvent e)
+        private DDD.Simple.Model.Order GetOrderModel(IDomainEvent<Guid> e)
         {
             if (_order == null)
             {

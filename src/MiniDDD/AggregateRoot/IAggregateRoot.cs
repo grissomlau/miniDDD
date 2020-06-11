@@ -7,8 +7,8 @@ namespace MiniDDD
         IEntity<TKey>
         where TKey : IEquatable<TKey>
     {
-        IEnumerable<IDomainEvent> UncommittedEvents { get; }
+        IEnumerable<IDomainEvent<TKey>> UncommittedEvents { get; }
 
-        void Replay(IEnumerable<IDomainEvent> events);
+        void Replay(IEnumerable<IDomainEvent<TKey>> events);
     }
 }

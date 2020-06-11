@@ -40,7 +40,7 @@ namespace DDD.Simple.Repository.SqlSugar
             _sqlClient.Client.Insertable(orderModel).ExecuteCommand();
         }
 
-        private Model.Order GetOrderModel(IDomainEvent e)
+        private Model.Order GetOrderModel(IDomainEvent<Guid> e)
         {
             if (_order == null)
             {

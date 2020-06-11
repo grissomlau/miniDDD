@@ -2,15 +2,15 @@
 
 namespace MiniDDD
 {
-    public class DomainEvent: IDomainEvent
+    public class DomainEvent<TKey> : IDomainEvent<TKey>
     {
-        public DomainEvent(object aggregateRootKey)
+        public DomainEvent(TKey aggregateRootKey)
         {
             AggregateRootKey = aggregateRootKey;
             Id = Guid.NewGuid();
             Timestamp = DateTime.UtcNow;
         }
-        public object AggregateRootKey { get; set; }
+        public virtual TKey AggregateRootKey { get; set; }
         public Guid Id { get; set; }
         public DateTime Timestamp { get; set; }
     }

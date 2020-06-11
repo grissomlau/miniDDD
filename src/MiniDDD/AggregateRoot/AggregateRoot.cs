@@ -5,14 +5,14 @@ using System.Linq;
 namespace MiniDDD
 {
     public class AggregateRoot<TKey> :
-        InlineEventHandler,
+        InlineEventHandler<TKey>,
         IAggregateRoot<TKey>
         where TKey : IEquatable<TKey>
     {
-        private readonly Queue<IDomainEvent> _uncommittedEvents = new Queue<IDomainEvent>();
-        public IEnumerable<IDomainEvent> UncommittedEvents => _uncommittedEvents;
+        private readonly Queue<IDomainEvent<TKey>> _uncommittedEvents = new Queue<IDomainEvent<TKey>>();
+        public IEnumerable<IDomainEvent<TKey>> UncommittedEvents => _uncommittedEvents;
 
-        public TKey Id { get;  set; }
+        public TKey Id { get; set; }
 
         public virtual void Purge()
         {
@@ -22,7 +22,7 @@ namespace MiniDDD
             }
         }
 
-        public void Replay(IEnumerable<IDomainEvent> events)
+        public void Replay(IEnumerable<IDomainEvent<TKey>> events)
         {
             //((IPurgeable)this).Purge();
             this.Purge();

@@ -15,6 +15,7 @@ namespace MiniDDD.UnitOfWork.SqlSugar
         private SqlClient<Sugar.SqlSugarClient> _sqlClient;
         private readonly DbContextOptions _options;
         private readonly Action<string> _logAction;
+        private bool _disposed = false;
 
         public UnitOfWork(DbContextOptions options, Action<string> logAction)
         {
@@ -90,20 +91,39 @@ namespace MiniDDD.UnitOfWork.SqlSugar
 
         public void Dispose()
         {
-            if (_sqlClient?.Client != null)
+            Dispose(true);
+        }
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
             {
-                try
+                if (disposing)
                 {
-                    _sqlClient.Client.Dispose();
+                    // 手动释放托管资源
                 }
-                catch
+                // 手动释放非托管资源
+
+                if (_sqlClient?.Client != null)
                 {
+                    try
+                    {
+                        _sqlClient.Client.Dispose();
+                    }
+                    catch
+                    {
+                    }
+                    finally
+                    {
+                        _sqlClient = null;
+                    }
                 }
-                finally
-                {
-                    _sqlClient = null;
-                }
+
+                _disposed = true;
             }
+        }
+        ~UnitOfWork()
+        {
+            Dispose(false);
         }
     }
 }

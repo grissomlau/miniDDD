@@ -1,11 +1,12 @@
 ﻿
 using MiniDDD;
+using System;
 
 namespace DDD.CQRS.Domain.Events
 {
-    public class UserCreated : DomainEvent
+    public class UserCreated : DomainEvent<Guid>
     {
-        public UserCreated(object aggregateRootKey, string name, string email) : base(aggregateRootKey)
+        public UserCreated(Guid aggregateRootKey, string name, string email) : base(aggregateRootKey)
         {
             Name = name;
             Email = email;

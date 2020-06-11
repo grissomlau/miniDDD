@@ -52,7 +52,7 @@ namespace Simple.Repository.Dapper
             _user = null;
         }
 
-        private DDD.Simple.Model.User GetUserModel(IDomainEvent e)
+        private DDD.Simple.Model.User GetUserModel(IDomainEvent<Guid> e)
         {
             if (_user == null)
             {

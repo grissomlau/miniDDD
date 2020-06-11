@@ -4,7 +4,7 @@ using System.Linq;
 namespace MiniDDD
 {
     public abstract class Repository<T, TKey> :
-        InlineEventHandler,
+        InlineEventHandler<TKey>,
         IRepository<T, TKey>
         where T : AggregateRoot<TKey>
         where TKey : IEquatable<TKey>

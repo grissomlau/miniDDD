@@ -2,10 +2,10 @@
 
 namespace MiniDDD
 {
-    public interface IDomainEvent
+    public interface IDomainEvent<TKey>
     {
         Guid Id { get; }
-        object AggregateRootKey { get; set; }
+        TKey AggregateRootKey { get; set; }
 
         DateTime Timestamp { get; }
     }

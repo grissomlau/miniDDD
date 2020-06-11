@@ -39,7 +39,7 @@ namespace DDD.Simple.Repository.EF
             _user = null;
         }
 
-        private Model.User GetUserModel(IDomainEvent e)
+        private Model.User GetUserModel(IDomainEvent<Guid> e)
         {
             if (_user == null)
             {

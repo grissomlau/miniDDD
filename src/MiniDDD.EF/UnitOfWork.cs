@@ -5,7 +5,8 @@ namespace MiniDDD.UnitOfWork.EF
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private  SqlClient<DbContext> _sqlClient;
+        private SqlClient<DbContext> _sqlClient;
+        private bool _disposed = false;
         public UnitOfWork(DefaultDbContext context)
         {
             _sqlClient = new SqlClient<DbContext>(context);
@@ -23,19 +24,34 @@ namespace MiniDDD.UnitOfWork.EF
 
         public void Dispose()
         {
-            if (_sqlClient?.Client != null)
+            Dispose(true);
+        }
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
             {
-                try
+                if (disposing)
                 {
-                    _sqlClient.Client.Dispose();
+                    // 手动释放托管资源
                 }
-                catch
+                // 手动释放非托管资源
+
+                if (_sqlClient?.Client != null)
                 {
+                    try
+                    {
+                        _sqlClient.Client.Dispose();
+                    }
+                    catch
+                    {
+                    }
+                    finally
+                    {
+                        _sqlClient = null;
+                    }
                 }
-                finally
-                {
-                    _sqlClient = null;
-                }
+
+                _disposed = true;
             }
         }
 
@@ -52,6 +68,11 @@ namespace MiniDDD.UnitOfWork.EF
         {
             _sqlClient.IsOpenedTransaction = false;
             //_sqlClient.Client.Database.BeginTransaction();
+        }
+
+        ~UnitOfWork()
+        {
+            Dispose(false);
         }
     }
 }

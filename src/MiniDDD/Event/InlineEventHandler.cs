@@ -3,10 +3,10 @@ using System.Reflection;
 
 namespace MiniDDD
 {
-    public abstract class InlineEventHandler
+    public abstract class InlineEventHandler<TKey>
     {
 
-        protected virtual void ApplyEvent<TEvent>(TEvent e) where TEvent : IDomainEvent
+        protected virtual void ApplyEvent<TEvent>(TEvent e) where TEvent : IDomainEvent<TKey>
         {
             var eventHandlerMethods = from m in GetType().GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
                                       let parameters = m.GetParameters()

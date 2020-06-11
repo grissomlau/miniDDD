@@ -14,6 +14,7 @@ namespace MiniDDD.UnitOfWork.Dapper
         private SqlClient<DbConnection> _sqlClient;
         readonly DbContextOptions _options;
         private DbTransaction _dbTransaction;
+        private bool _disposed = false;
         public UnitOfWork(DbContextOptions options)
         {
             _options = options;
@@ -109,20 +110,41 @@ namespace MiniDDD.UnitOfWork.Dapper
 
         public void Dispose()
         {
-            if (_sqlClient?.Client != null)
+            Dispose(true);//同时释放托管和非托管资源
+            // GC.SuppressFinalize(this);//阻止GC调用析构函数
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (!_disposed)
             {
-                try
+                if (disposing)
                 {
-                    _sqlClient.Client.Dispose();
+                    // 手动释放托管资源
                 }
-                catch
+                // 手动释放非托管资源
+
+                if (_sqlClient?.Client != null)
                 {
+                    try
+                    {
+                        _sqlClient.Client.Dispose();
+                    }
+                    catch
+                    {
+                    }
+                    finally
+                    {
+                        _sqlClient = null;
+                    }
                 }
-                finally
-                {
-                    _sqlClient = null;
-                }
+
+                _disposed = true;
             }
+        }
+        ~UnitOfWork()
+        {
+            Dispose(false);
         }
     }
 }

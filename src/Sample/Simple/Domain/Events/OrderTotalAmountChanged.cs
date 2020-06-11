@@ -1,12 +1,13 @@
 ﻿
 using MiniDDD;
+using System;
 
 namespace DDD.Simple.Domain.Events
 {
-    public class OrderTotalAmountChanged : DomainEvent
+    public class OrderTotalAmountChanged : DomainEvent<Guid>
     {
         public decimal TotalAmount { get; set; }
-        public OrderTotalAmountChanged(object aggregateRootKey, decimal totalAmount) : base(aggregateRootKey)
+        public OrderTotalAmountChanged(Guid aggregateRootKey, decimal totalAmount) : base(aggregateRootKey)
         {
             TotalAmount = totalAmount;
         }
