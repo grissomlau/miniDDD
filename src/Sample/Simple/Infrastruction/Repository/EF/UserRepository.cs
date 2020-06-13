@@ -12,12 +12,10 @@ namespace DDD.Simple.Repository.EF
     public class UserRepository : Repository<User, Guid>
     {
         readonly DbContext _dbContext;
-        readonly SqlClient<DbContext> _sqlClient;
         Model.User _user;
         public UserRepository(IUnitOfWork unitOfWork)
         {
-            _sqlClient = unitOfWork.GetSqlClient<DbContext>();
-            _dbContext = _sqlClient.Client;
+            _dbContext = unitOfWork.GetSqlClient<DbContext>();
         }
         public override User Get(Guid key)
         {
@@ -32,10 +30,6 @@ namespace DDD.Simple.Repository.EF
         public override void Save(User aggreateRoot)
         {
             base.Save(aggreateRoot);
-            if (!_sqlClient.IsOpenedTransaction)
-            {
-                _sqlClient.Client.SaveChanges();
-            }
             _user = null;
         }
 

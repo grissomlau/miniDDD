@@ -20,9 +20,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\MiniDDD.EF\MiniDDD.UnitOfWork.EF.csproj" />
+    <ProjectReference Include="..\..\..\MiniDDD.SqlSugar\MiniDDD.UnitOfWork.SqlSugar.csproj" />
     <ProjectReference Include="..\..\..\MiniDDD.UnitOfWork.Dapper\MiniDDD.UnitOfWork.Dapper.csproj" />
     <ProjectReference Include="..\Infrastruction\Repository\EF\Simple.Repository.EF.csproj" />
     <ProjectReference Include="..\Infrastruction\Repository\Simple.Repository.Dapper\Simple.Repository.Dapper.csproj" />
+    <ProjectReference Include="..\Infrastruction\Repository\SqlSugar\Simple.Repository.SqlSugar.csproj" />
     <ProjectReference Include="..\Services\Simple.Services.csproj" />
   </ItemGroup>
 

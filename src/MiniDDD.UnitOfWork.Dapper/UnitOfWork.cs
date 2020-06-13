@@ -6,15 +6,48 @@ using System.Data.SqlClient;
 using System.Data.SQLite;
 using Dapper;
 using Npgsql;
+using System.Collections.Generic;
 
 namespace MiniDDD.UnitOfWork.Dapper
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private SqlClient<DbConnection> _sqlClient;
         readonly DbContextOptions _options;
         private DbTransaction _dbTransaction;
         private bool _disposed = false;
+
+        private DbConnection _cnn;
+        public T GetSqlClient<T>() where T : class
+        {
+            if (_cnn == null)
+            {
+                switch (_options.DbType)
+                {
+                    case DbType.MySQL:
+                        _cnn = new MySqlConnection(_options.ConnectionString);
+                        break;
+                    case DbType.SQLServer:
+                        _cnn = new SqlConnection(_options.ConnectionString);
+                        break;
+                    case DbType.Oracle:
+                        _cnn = new OracleConnection(_options.ConnectionString);
+                        break;
+                    case DbType.PostgreSQL:
+                        _cnn = new NpgsqlConnection(_options.ConnectionString);
+                        break;
+                    case DbType.SQLite:
+                        _cnn = new SQLiteConnection(_options.ConnectionString);
+                        break;
+                    default:
+                        throw new Exception("please specify DbType!");
+                }
+            }
+            if (!typeof(T).IsAssignableFrom(typeof(DbConnection)))
+            {
+                throw new InvalidCastException($"cannot convert {typeof(T)} to DbConnection");
+            }
+            return _cnn as T;
+        }
         public UnitOfWork(DbContextOptions options)
         {
             _options = options;
@@ -22,96 +55,33 @@ namespace MiniDDD.UnitOfWork.Dapper
 
         public void BeginTransaction()
         {
-            var client = GetSqlClient();
-            if (client != null && client.Client != null && !client.IsOpenedTransaction)
+            if (_cnn.State != System.Data.ConnectionState.Open)
             {
-                if (client.Client.State != System.Data.ConnectionState.Open)
-                {
-                    client.Client.Open();
-                }
-                _dbTransaction = client.Client.BeginTransaction();
-                client.IsOpenedTransaction = true;
+                _cnn.Open();
             }
+            _dbTransaction = _cnn.BeginTransaction();
         }
 
         public void Commit()
         {
-            if (_sqlClient != null && _sqlClient.IsOpenedTransaction)
-            {
-                if (_dbTransaction != null)
-                {
-                    _dbTransaction.Commit();
-                    //if (_sqlClient.Client.State != System.Data.ConnectionState.Closed || _sqlClient.Client.State != System.Data.ConnectionState.Broken)
-                    //{
-                    //    try
-                    //    {
-                    //        _sqlClient.Client.Close();
-                    //    }
-                    //    catch { }
-                    //}
-                }
-                //_sqlClient.IsOpenedTransaction = false;
-                Dispose();
-            }
+            _dbTransaction.Commit();
         }
 
         public void Rollback()
         {
-            if (_sqlClient != null && _sqlClient.IsOpenedTransaction)
+            if (_dbTransaction != null)
             {
-                if (_dbTransaction != null)
-                {
-                    _dbTransaction.Rollback();
-                }
-                //_sqlClient.IsOpenedTransaction = false;
-                Dispose();
+                _dbTransaction.Rollback();
             }
+            //_sqlClient.IsOpenedTransaction = false;
+            Dispose();
 
-        }
-
-        private SqlClient<DbConnection> GetSqlClient()
-        {
-            if (_sqlClient?.Client == null)
-            {
-                DbConnection cnn = null;
-                switch (_options.DbType)
-                {
-                    case DbType.MySQL:
-                        cnn = new MySqlConnection(_options.ConnectionString);
-                        break;
-                    case DbType.SQLServer:
-                        cnn = new SqlConnection(_options.ConnectionString);
-                        break;
-                    case DbType.Oracle:
-                        cnn = new OracleConnection(_options.ConnectionString);
-                        break;
-                    case DbType.PostgreSQL:
-                        cnn = new NpgsqlConnection(_options.ConnectionString);
-                        break;
-                    case DbType.SQLite:
-                        cnn = new SQLiteConnection(_options.ConnectionString);
-                        break;
-                    default:
-                        throw new Exception("please specify DbType!");
-                }
-                _sqlClient = new SqlClient<DbConnection>(cnn);
-            }
-            return _sqlClient;
-        }
-
-        public SqlClient<T> GetSqlClient<T>() where T : class
-        {
-            if (!typeof(T).IsAssignableFrom(typeof(DbConnection)))
-            {
-                throw new InvalidCastException($"cannot convert {typeof(T)} to DbConnection");
-            }
-            return GetSqlClient() as SqlClient<T>;
         }
 
         public void Dispose()
         {
             Dispose(true);//同时释放托管和非托管资源
-            // GC.SuppressFinalize(this);//阻止GC调用析构函数
+                          // GC.SuppressFinalize(this);//阻止GC调用析构函数
         }
 
         protected void Dispose(bool disposing)
@@ -124,18 +94,18 @@ namespace MiniDDD.UnitOfWork.Dapper
                 }
                 // 手动释放非托管资源
 
-                if (_sqlClient?.Client != null)
+                if (_cnn != null)
                 {
                     try
                     {
-                        _sqlClient.Client.Dispose();
+                        _cnn.Dispose();
                     }
                     catch
                     {
                     }
                     finally
                     {
-                        _sqlClient = null;
+                        _cnn = null;
                     }
                 }
 

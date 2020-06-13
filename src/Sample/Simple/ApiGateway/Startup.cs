@@ -66,8 +66,8 @@ namespace ApiGateway
 
             var baseType = typeof(IAutoInject);
             var assembly = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "/Simple.Services.dll");
-            var assembly2 = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "/Simple.Repository.EF.dll");
-            //var assembly2 = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "/Simple.Repository.Dapper.dll");
+            //var assembly2 = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "/Simple.Repository.EF.dll");
+            var assembly2 = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "/Simple.Repository.Dapper.dll");
             //var assembly2 = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "/Simple.Repository.SqlSugar.dll");
 
             builder.RegisterAssemblyTypes(assembly)
@@ -83,24 +83,24 @@ namespace ApiGateway
 
             // using dapper
 
-            //builder.RegisterType<MiniDDD.UnitOfWork.Dapper.UnitOfWork>().As<IUnitOfWork>().AsImplementedInterfaces().InstancePerLifetimeScope();
-            //builder.RegisterType<DbContextOptions>().SingleInstance();
+            builder.RegisterType<MiniDDD.UnitOfWork.Dapper.UnitOfWork>().As<IUnitOfWork>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType<DbContextOptions>().SingleInstance();
 
 
             // using ef
 
-            builder.RegisterType<MiniDDD.UnitOfWork.EF.UnitOfWork>().As<IUnitOfWork>().AsImplementedInterfaces().InstancePerLifetimeScope();
-            builder.RegisterType<MiniDDD.UnitOfWork.EF.DefaultDbContext>()
-                .WithParameter("tableModelAssemblyName", "Simple.Model")
-                .WithParameter("logAction", new Action<LogLevel, string>((logLevel, log) =>
-                {
-                    Debug.WriteLine($"{logLevel} - {log}");
-                }))
-                .WithParameter("logLevel", LogLevel.Debug)
-                .SingleInstance();
+            //builder.RegisterType<MiniDDD.UnitOfWork.EF.UnitOfWork>().As<IUnitOfWork>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            //builder.RegisterType<MiniDDD.UnitOfWork.EF.DefaultDbContext>()
+            //    .WithParameter("tableModelAssemblyName", "Simple.Model")
+            //    .WithParameter("logAction", new Action<LogLevel, string>((logLevel, log) =>
+            //    {
+            //        Debug.WriteLine($"{logLevel} - {log}");
+            //    }))
+            //    .WithParameter("logLevel", LogLevel.Debug)
+            //    .SingleInstance();
 
             // using sqlsugar
-            ///*builder.RegisterType<DbContextOptions>().SingleInstance();
+            //builder.RegisterType<DbContextOptions>().SingleInstance();
 
             //builder.RegisterType<MiniDDD.UnitOfWork.SqlSugar.UnitOfWork>().As<IUnitOfWork>()
             //    .WithParameter("logAction", new Action<string>((sql) =>
@@ -108,7 +108,6 @@ namespace ApiGateway
             //        Debug.WriteLine("Sugar: " + sql);
             //    }))
             //    .AsImplementedInterfaces().InstancePerLifetimeScope();
-            //    */
 
 
 

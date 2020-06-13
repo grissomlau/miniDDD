@@ -16,7 +16,7 @@ namespace DDD.Simple.Repository.SqlSugar
         //BaseDao<Model.UserFriend, Guid> _userFriendDao;
 
         Model.User _user;
-        readonly SqlClient<SqlSugarClient> _sqlClient;
+        readonly SqlSugarClient _sqlClient;
         readonly Guid id;
         public UserRepository(IUnitOfWork unitOfWork)
         {
@@ -28,9 +28,9 @@ namespace DDD.Simple.Repository.SqlSugar
         public override User Get(Guid key)
         {
             Console.WriteLine($"Repository guid is {id.ToString()}");
-            var user = _sqlClient.Client.Queryable<Model.User>().Where(x => x.Id == key).Single();
+            var user = _sqlClient.Queryable<Model.User>().Where(x => x.Id == key).Single();
 
-            var friends = _sqlClient.Client.Queryable<UserFriend>().Where(x => x.UserId == user.Id).ToList();
+            var friends = _sqlClient.Queryable<UserFriend>().Where(x => x.UserId == user.Id).ToList();
 
             return User.Load(user.Id, user.Name, user.Email, friends.Select(x => x.Id).ToList());
         }
@@ -50,7 +50,7 @@ namespace DDD.Simple.Repository.SqlSugar
             user.Email = userRegistered.Email;
 
             //_userDao.Insert(_user);
-            _sqlClient.Client.Insertable(user).ExecuteCommand();
+            _sqlClient.Insertable(user).ExecuteCommand();
         }
 
         [InlineEventHandler]
@@ -59,14 +59,14 @@ namespace DDD.Simple.Repository.SqlSugar
             var user = GetUserModel(userNameChanged);
             user.Name = userNameChanged.Name;
             //_userDao.Update(_user);
-            _sqlClient.Client.Updateable(user).UpdateColumns(x => new { x.Name }).ExecuteCommand();
+            _sqlClient.Updateable(user).UpdateColumns(x => new { x.Name }).ExecuteCommand();
         }
 
         private Model.User GetUserModel(IDomainEvent<Guid> e)
         {
             if (_user == null)
             {
-                _user = _sqlClient.Client.Queryable<Model.User>().Where(x => x.Id == (Guid)e.AggregateRootKey).Single();
+                _user = _sqlClient.Queryable<Model.User>().Where(x => x.Id == (Guid)e.AggregateRootKey).Single();
             }
 
             return _user ?? (_user = new Model.User());

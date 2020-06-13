@@ -10,13 +10,11 @@ namespace DDD.Simple.Repository.EF
 {
     public class OrderRepository : Repository<Order, Guid>
     {
-        readonly SqlClient<DbContext> _sqlClient;
         readonly DbContext _dbContext;
         Model.Order _orderModel;
         public OrderRepository(IUnitOfWork unitOfWork)
         {
-            _sqlClient = unitOfWork.GetSqlClient<DbContext>();
-            _dbContext = _sqlClient.Client;
+            _dbContext = unitOfWork.GetSqlClient<DbContext>();
         }
         public override Order Get(Guid key)
         {
@@ -31,10 +29,6 @@ namespace DDD.Simple.Repository.EF
         public override void Save(Order aggreateRoot)
         {
             base.Save(aggreateRoot);
-            if (!_sqlClient.IsOpenedTransaction)
-            {
-                _dbContext.SaveChanges();
-            }
             _orderModel = null;
         }
 

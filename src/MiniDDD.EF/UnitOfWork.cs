@@ -5,21 +5,29 @@ namespace MiniDDD.UnitOfWork.EF
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private SqlClient<DbContext> _sqlClient;
         private bool _disposed = false;
+
+        private DefaultDbContext _dbContext;
+        public T GetSqlClient<T>() where T : class
+        {
+            if (!typeof(T).IsAssignableFrom(typeof(DefaultDbContext)))
+            {
+                throw new Exception($"cannot convert {typeof(T)} to {typeof(DefaultDbContext)}");
+            }
+            return _dbContext as T;
+        }
+
         public UnitOfWork(DefaultDbContext context)
         {
-            _sqlClient = new SqlClient<DbContext>(context);
+            _dbContext = context;
         }
         public void BeginTransaction()
         {
-            _sqlClient.IsOpenedTransaction = true;
         }
 
         public void Commit()
         {
-            _sqlClient.IsOpenedTransaction = false;
-            _sqlClient.Client.SaveChanges();
+            _dbContext.SaveChanges();
         }
 
         public void Dispose()
@@ -36,38 +44,28 @@ namespace MiniDDD.UnitOfWork.EF
                 }
                 // 手动释放非托管资源
 
-                if (_sqlClient?.Client != null)
-                {
-                    try
-                    {
-                        _sqlClient.Client.Dispose();
-                    }
-                    catch
-                    {
-                    }
-                    finally
-                    {
-                        _sqlClient = null;
-                    }
-                }
+                //-- DbContext 不需要手动释放，在调用 SaveChange 自动释放
+                //if (_dbContext != null)
+                //{
+                //    try
+                //    {
+                //        _dbContext.Dispose();
+                //    }
+                //    catch
+                //    {
+                //    }
+                //    finally
+                //    {
+                //        _dbContext = null;
+                //    }
+                //}
 
                 _disposed = true;
             }
         }
 
-        public SqlClient<T> GetSqlClient<T>() where T : class
-        {
-            if (!typeof(T).IsAssignableFrom(typeof(DefaultDbContext)))
-            {
-                throw new Exception($"cannot convert {typeof(T)} to {typeof(SqlClient<DefaultDbContext>)}");
-            }
-            return _sqlClient as SqlClient<T>;
-        }
-
         public void Rollback()
         {
-            _sqlClient.IsOpenedTransaction = false;
-            //_sqlClient.Client.Database.BeginTransaction();
         }
 
         ~UnitOfWork()

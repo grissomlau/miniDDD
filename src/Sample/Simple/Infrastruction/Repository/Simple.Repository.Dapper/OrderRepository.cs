@@ -12,12 +12,10 @@ namespace Simple.Repository.Dapper
     {
 
         readonly DbConnection _dbConnection;
-        readonly SqlClient<DbConnection> _sqlClient;
         DDD.Simple.Model.Order _order;
         public OrderRepository(IUnitOfWork unitOfWork)
         {
-            _sqlClient = unitOfWork.GetSqlClient<DbConnection>();
-            _dbConnection = _sqlClient.Client;
+            _dbConnection = unitOfWork.GetSqlClient<DbConnection>();
         }
 
         public override Order Get(Guid key)

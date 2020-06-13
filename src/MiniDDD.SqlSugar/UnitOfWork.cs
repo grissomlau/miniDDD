@@ -1,6 +1,7 @@
 ﻿using System;
 using Sugar = SqlSugar;
 using System.Linq;
+using SqlSugar;
 
 namespace MiniDDD.UnitOfWork.SqlSugar
 {
@@ -12,41 +13,16 @@ namespace MiniDDD.UnitOfWork.SqlSugar
         /// diffrent vaue for every thread
         /// </summary>
         //private ThreadLocal<SqlClient<SqlSugarClient>> _tlSqlClient;
-        private SqlClient<Sugar.SqlSugarClient> _sqlClient;
         private readonly DbContextOptions _options;
         private readonly Action<string> _logAction;
         private bool _disposed = false;
 
-        public UnitOfWork(DbContextOptions options, Action<string> logAction)
+        private SqlSugarClient _client;
+        public T GetSqlClient<T>() where T : class
         {
-            _options = options;
-            _logAction = logAction;
-        }
-        public void BeginTransaction()
-        {
-            var sqlClient = GetSqlClient();
-            if (sqlClient?.Client != null)
+            if (_client == null)
             {
-                if (!sqlClient.IsOpenedTransaction)
-                    sqlClient.Client.Ado.BeginTran();
-                sqlClient.IsOpenedTransaction = true;
-            }
-        }
-
-        public void Commit()
-        {
-            if (_sqlClient?.Client != null && _sqlClient.IsOpenedTransaction)
-            {
-                _sqlClient.IsOpenedTransaction = false;
-                _sqlClient.Client.Ado.CommitTran();
-            }
-        }
-
-        private SqlClient<Sugar.SqlSugarClient> GetSqlClient()
-        {
-            if (_sqlClient == null)
-            {
-                var client = new Sugar.SqlSugarClient(new Sugar.ConnectionConfig
+                _client = new Sugar.SqlSugarClient(new Sugar.ConnectionConfig
                 {
                     IsAutoCloseConnection = true,
                     ConnectionString = _options.ConnectionString,
@@ -56,7 +32,7 @@ namespace MiniDDD.UnitOfWork.SqlSugar
                 });
                 if (_logAction != null)
                 {
-                    client.Aop.OnLogExecuting = (sql, pars) =>
+                    _client.Aop.OnLogExecuting = (sql, pars) =>
                     {
                         var paraStr = "";
                         if (pars != null && pars.Any())
@@ -67,26 +43,33 @@ namespace MiniDDD.UnitOfWork.SqlSugar
                         //Console.WriteLine($"SQL: {sql}");
                     };
                 }
-                _sqlClient = new SqlClient<Sugar.SqlSugarClient>(client);
             }
-            return _sqlClient;
-        }
 
-        public void Rollback()
-        {
-            if (_sqlClient?.Client != null && _sqlClient.IsOpenedTransaction)
-            {
-                _sqlClient.Client.Ado.RollbackTran();
-            }
-        }
-
-        public SqlClient<T> GetSqlClient<T>() where T : class
-        {
             if (!typeof(T).IsAssignableFrom(typeof(Sugar.SqlSugarClient)))
             {
                 throw new InvalidCastException($"cannot convert {typeof(T)} to SqlSugarClient");
             }
-            return GetSqlClient() as SqlClient<T>;
+            return _client as T;
+        }
+        public UnitOfWork(DbContextOptions options, Action<string> logAction)
+        {
+            _options = options;
+            _logAction = logAction;
+        }
+        public void BeginTransaction()
+        {
+            _client.Ado.BeginTran();
+        }
+
+        public void Commit()
+        {
+            _client.Ado.CommitTran();
+        }
+
+
+        public void Rollback()
+        {
+            _client.Ado.RollbackTran();
         }
 
         public void Dispose()
@@ -103,18 +86,18 @@ namespace MiniDDD.UnitOfWork.SqlSugar
                 }
                 // 手动释放非托管资源
 
-                if (_sqlClient?.Client != null)
+                if (_client != null)
                 {
                     try
                     {
-                        _sqlClient.Client.Dispose();
+                        _client.Dispose();
                     }
                     catch
                     {
                     }
                     finally
                     {
-                        _sqlClient = null;
+                        _client = null;
                     }
                 }
 
