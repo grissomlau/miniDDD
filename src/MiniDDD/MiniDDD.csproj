@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>1.2.0</Version>
+    <Version>1.2.1</Version>
     <Description>a lightweight DDD framework for .Net Core</Description>
     <PackageProjectUrl>https://github.com/grissomlau/miniDDD</PackageProjectUrl>
     <RepositoryUrl>https://github.com/grissomlau/miniDDD</RepositoryUrl>

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace MiniDDD
 {
-    public class AggregateRoot<TKey> :
+    public abstract class AggregateRoot<TKey> :
         InlineEventHandler<TKey>,
         IAggregateRoot<TKey>
         where TKey : IEquatable<TKey>
@@ -12,7 +12,7 @@ namespace MiniDDD
         private readonly Queue<IDomainEvent<TKey>> _uncommittedEvents = new Queue<IDomainEvent<TKey>>();
         public IEnumerable<IDomainEvent<TKey>> UncommittedEvents => _uncommittedEvents;
 
-        public TKey Id { get; set; }
+        public virtual TKey Id { get; set; }
 
         public virtual void Purge()
         {
