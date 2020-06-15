@@ -63,3 +63,7 @@
 /src/Sample/Simple/Infrastruction/Repository/SqlSugar/bin
 /src/Sample/Simple/IServices/bin
 /src/Sample/Simple/Services/bin
+/src/MiniDDD.UnitOfWork.EF/bin
+/src/MiniDDD.UnitOfWork.EF/obj
+/src/MiniDDD.UnitOfWork.Sql/bin
+/src/MiniDDD.UnitOfWork.Sql/obj

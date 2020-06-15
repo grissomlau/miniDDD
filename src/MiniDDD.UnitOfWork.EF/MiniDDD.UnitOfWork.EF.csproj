@@ -2,22 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <Version>1.4.0</Version>
     <Authors>grissomlau@qq.com</Authors>
-    <Company>grissomlau@qq.com</Company>
-    <Description>SqlSugar repository for MiniDDD</Description>
-    <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/grissomlau/miniDDD</PackageProjectUrl>
     <RepositoryUrl>https://github.com/grissomlau/miniDDD</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.4.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DefaultModule.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="sqlSugarCore" Version="5.0.0.15" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.5" />
   </ItemGroup>
 
   <ItemGroup>

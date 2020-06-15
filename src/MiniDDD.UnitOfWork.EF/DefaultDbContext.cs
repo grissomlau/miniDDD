@@ -13,7 +13,7 @@ namespace MiniDDD.UnitOfWork.EF
 
     public class DefaultDbContext : DbContext
     {
-        private readonly DbContextOptions _option;
+        private readonly DbContextOptions _options;
         private string _tableModelAssemblyName;
         private LoggerFactory _loggerFactory;
         readonly Action<LogLevel, string> _logAction;
@@ -22,7 +22,7 @@ namespace MiniDDD.UnitOfWork.EF
         public DefaultDbContext(DbContextOptions option, string tableModelAssemblyName, Action<LogLevel, string> logAction, LogLevel logLevel) : base(new DbContextOptions<DefaultDbContext>())
         {
             _tableModelAssemblyName = tableModelAssemblyName;
-            _option = option;
+            _options = option;
             _logAction = logAction;
             _logLevel = logLevel;
             _loggerFactory = new LoggerFactory();
@@ -30,6 +30,11 @@ namespace MiniDDD.UnitOfWork.EF
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            if (string.IsNullOrEmpty(_options.ProviderName))
+            {
+                throw new MiniDDDException("DbContextOptions.ProviderName cannot be null or empty, please specify the EFProvider");
+            }
+
             if (_logAction != null)
             {
                 var provider = new SqlLogProvider(_logAction, _logLevel);
@@ -37,29 +42,16 @@ namespace MiniDDD.UnitOfWork.EF
                 optionsBuilder.EnableSensitiveDataLogging();
                 optionsBuilder.UseLoggerFactory(_loggerFactory);
             }
-            switch (_option.DbType)
+
+            var efProvider = EFProviderContainer.Instance.GetFactory(_options.ProviderName);
+
+            if (efProvider == null)
             {
-                case DbType.MySQL:
-                    optionsBuilder.UseMySql(_option.ConnectionString);
-                    break;
-                case DbType.SQLServer:
-                    optionsBuilder.UseSqlServer(_option.ConnectionString);
-                    break;
-                case DbType.SQLite:
-                    throw new NotSupportedException("SQLite not support yet!");
-                    //optionsBuilder.UseSqlite(_option.ConnectionString);
-                    //break;
-                case DbType.PostgreSQL:
-                    optionsBuilder.UseNpgsql(_option.ConnectionString);
-                    break;
-                case DbType.Oracle:
-                    throw new NotSupportedException("oracle not support yet!");
-                //optionsBuilder.UseOracle(_option.ConnectionString);
-                //break;
-                default:
-                    optionsBuilder.UseMySql(_option.ConnectionString);
-                    break;
+                throw new MiniDDDException($"the DbContextOptions.ProviderName:  {_options.ProviderName}, not Register in EFProviderFactories");
             }
+
+            efProvider.Use(optionsBuilder, _options.ConnectionString);
+
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -76,7 +68,7 @@ namespace MiniDDD.UnitOfWork.EF
             {
                 var assembly = Assembly.Load(_tableModelAssemblyName);
                 var types = assembly?.GetTypes();
-                modelTypes = types?.Where(x => x.IsClass && x.GetInterfaces().Any(y => y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IDbModel<>))
+                modelTypes = types?.Where(x => x.IsClass && x.GetInterface(typeof(IEFModel).FullName) != null
                && !x.IsGenericType && !x.IsAbstract
                ).ToList();
             }
@@ -84,8 +76,7 @@ namespace MiniDDD.UnitOfWork.EF
             {
                 modelTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes())
                     .Where(x => x.IsClass &&
-                          x.GetInterfaces().Any(y => y.IsGenericType &&
-                          y.GetGenericTypeDefinition() == typeof(IDbModel<>)) &&
+                          x.GetInterface(typeof(IEFModel).FullName) != null &&
                           !x.IsGenericType && !x.IsAbstract
                           ).ToList();
             }

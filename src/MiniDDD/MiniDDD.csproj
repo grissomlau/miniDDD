@@ -2,18 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>1.3.0</Version>
+    <Version>1.4.0</Version>
     <Description>a lightweight DDD framework for .Net Core</Description>
     <PackageProjectUrl>https://github.com/grissomlau/miniDDD</PackageProjectUrl>
     <RepositoryUrl>https://github.com/grissomlau/miniDDD</RepositoryUrl>
     <Authors>grissomlau@qq.com</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Company>grissomlau@qq.comgrissomlau@qq.com</Company>
+    <Company>grissomlau@qq.com</Company>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="DbOptions.cs" />
-    <Compile Remove="IUnitOfWork.cs" />
-  </ItemGroup>
-
 </Project>

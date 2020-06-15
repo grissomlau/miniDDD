@@ -1,24 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>grissomlau@qq.com</Authors>
-    <Company>grissomlau@qq.com</Company>
-    <Description>SqlSugar repository for MiniDDD</Description>
-    <PackageLicenseUrl></PackageLicenseUrl>
+    <Version>1.4.0</Version>
     <PackageProjectUrl>https://github.com/grissomlau/miniDDD</PackageProjectUrl>
     <RepositoryUrl>https://github.com/grissomlau/miniDDD</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.4.0</Version>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="DefaultModule.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="sqlSugarCore" Version="5.0.0.15" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MiniDDD\MiniDDD.csproj" />

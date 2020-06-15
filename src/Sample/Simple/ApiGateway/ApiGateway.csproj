@@ -8,6 +8,7 @@
     <PackageReference Include="Autofac" Version="4.9.4" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc4" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.0.0-rc4" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.0.0-rc4" />
@@ -19,9 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\MiniDDD.EF\MiniDDD.UnitOfWork.EF.csproj" />
     <ProjectReference Include="..\..\..\MiniDDD.SqlSugar\MiniDDD.UnitOfWork.SqlSugar.csproj" />
-    <ProjectReference Include="..\..\..\MiniDDD.UnitOfWork.Dapper\MiniDDD.UnitOfWork.Dapper.csproj" />
+    <ProjectReference Include="..\..\..\MiniDDD.UnitOfWork.EF\MiniDDD.UnitOfWork.EF.csproj" />
+    <ProjectReference Include="..\..\..\MiniDDD.UnitOfWork.Sql\MiniDDD.UnitOfWork.Sql.csproj" />
     <ProjectReference Include="..\Infrastruction\Repository\EF\Simple.Repository.EF.csproj" />
     <ProjectReference Include="..\Infrastruction\Repository\Simple.Repository.Dapper\Simple.Repository.Dapper.csproj" />
     <ProjectReference Include="..\Infrastruction\Repository\SqlSugar\Simple.Repository.SqlSugar.csproj" />

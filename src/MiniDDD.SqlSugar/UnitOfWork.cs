@@ -2,6 +2,7 @@
 using Sugar = SqlSugar;
 using System.Linq;
 using SqlSugar;
+using System.Data;
 
 namespace MiniDDD.UnitOfWork.SqlSugar
 {
@@ -22,11 +23,15 @@ namespace MiniDDD.UnitOfWork.SqlSugar
         {
             if (_client == null)
             {
+                if (string.IsNullOrEmpty(_options.ProviderName))
+                {
+                    throw new MiniDDDException("DbContextOptions.ProviderName cannot be null or empty, please specify the Sugar.DbType");
+                }
                 _client = new Sugar.SqlSugarClient(new Sugar.ConnectionConfig
                 {
                     IsAutoCloseConnection = true,
                     ConnectionString = _options.ConnectionString,
-                    DbType = (Sugar.DbType)Enum.Parse(typeof(Sugar.DbType), _options.DbType.ToString(), true),
+                    DbType = (Sugar.DbType)Enum.Parse(typeof(Sugar.DbType), _options.ProviderName, true),
                     InitKeyType = Sugar.InitKeyType.SystemTable
 
                 });
@@ -104,6 +109,12 @@ namespace MiniDDD.UnitOfWork.SqlSugar
                 _disposed = true;
             }
         }
+
+        public void BeginTransaction(IsolationLevel isolationLevel)
+        {
+            _client.Ado.BeginTran(isolationLevel);
+        }
+
         ~UnitOfWork()
         {
             Dispose(false);

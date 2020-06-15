@@ -1,14 +1,9 @@
-﻿using MySql.Data.MySqlClient;
-using Oracle.ManagedDataAccess.Client;
-using System;
+﻿using System;
 using System.Data.Common;
-using System.Data.SqlClient;
-using System.Data.SQLite;
-using Dapper;
-using Npgsql;
 using System.Collections.Generic;
+using System.Data;
 
-namespace MiniDDD.UnitOfWork.Dapper
+namespace MiniDDD.UnitOfWork.Sql
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -21,26 +16,14 @@ namespace MiniDDD.UnitOfWork.Dapper
         {
             if (_cnn == null)
             {
-                switch (_options.DbType)
+                if (string.IsNullOrEmpty(_options.ProviderName))
                 {
-                    case DbType.MySQL:
-                        _cnn = new MySqlConnection(_options.ConnectionString);
-                        break;
-                    case DbType.SQLServer:
-                        _cnn = new SqlConnection(_options.ConnectionString);
-                        break;
-                    case DbType.Oracle:
-                        _cnn = new OracleConnection(_options.ConnectionString);
-                        break;
-                    case DbType.PostgreSQL:
-                        _cnn = new NpgsqlConnection(_options.ConnectionString);
-                        break;
-                    case DbType.SQLite:
-                        _cnn = new SQLiteConnection(_options.ConnectionString);
-                        break;
-                    default:
-                        throw new Exception("please specify DbType!");
+                    throw new MiniDDDException("DbContextOptions.ProviderName cannot be null or empty, please specify the SqlProvider");
                 }
+                DbProviderFactory factory = DbProviderFactories.GetFactory(_options.ProviderName);
+                _cnn = factory.CreateConnection();
+                _cnn.ConnectionString = _options.ConnectionString;
+
             }
             if (!typeof(T).IsAssignableFrom(typeof(DbConnection)))
             {
@@ -112,6 +95,16 @@ namespace MiniDDD.UnitOfWork.Dapper
                 _disposed = true;
             }
         }
+
+        public void BeginTransaction(IsolationLevel isolationLevel)
+        {
+            if (_cnn.State != System.Data.ConnectionState.Open)
+            {
+                _cnn.Open();
+            }
+            _dbTransaction = _cnn.BeginTransaction(isolationLevel);
+        }
+
         ~UnitOfWork()
         {
             Dispose(false);

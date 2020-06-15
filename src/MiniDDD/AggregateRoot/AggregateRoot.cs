@@ -22,7 +22,7 @@ namespace MiniDDD
             }
         }
 
-        public void Replay(IEnumerable<IDomainEvent<TKey>> events)
+        public virtual void Replay(IEnumerable<IDomainEvent<TKey>> events)
         {
             //((IPurgeable)this).Purge();
             this.Purge();

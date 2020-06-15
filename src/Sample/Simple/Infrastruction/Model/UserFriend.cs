@@ -7,7 +7,7 @@ namespace DDD.Simple.Model
 {
     [Table("UserFriend")]
     [SugarTable("UserFriend")]
-    public class UserFriend : IDbModel<Guid>
+    public class UserFriend : IEFModel
     {
         [SugarColumn(IsPrimaryKey = true)]
         public Guid Id { get; set; }

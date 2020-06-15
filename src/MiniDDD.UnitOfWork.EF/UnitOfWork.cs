@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace MiniDDD.UnitOfWork.EF
@@ -23,11 +24,17 @@ namespace MiniDDD.UnitOfWork.EF
         }
         public void BeginTransaction()
         {
+            _dbContext.Database.BeginTransaction();
+        }
+        public void BeginTransaction(IsolationLevel isolationLevel)
+        {
+            _dbContext.Database.BeginTransaction(isolationLevel);
         }
 
         public void Commit()
         {
             _dbContext.SaveChanges();
+            _dbContext.Database.CommitTransaction();
         }
 
         public void Dispose()
@@ -66,7 +73,10 @@ namespace MiniDDD.UnitOfWork.EF
 
         public void Rollback()
         {
+            _dbContext.Database.RollbackTransaction();
         }
+
+
 
         ~UnitOfWork()
         {
