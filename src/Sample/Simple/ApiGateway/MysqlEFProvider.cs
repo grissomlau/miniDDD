@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MiniDDD.UnitOfWork.EF;
+﻿using EasyUnitOfWork.EF;
+using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;

@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\MiniDDD\MiniDDD.csproj" />
+    <ProjectReference Include="..\..\..\..\EasyUnitOfWork\EasyUnitOfWork.csproj" />
   </ItemGroup>
 
 </Project>

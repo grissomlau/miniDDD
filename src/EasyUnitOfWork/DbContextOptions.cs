@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MiniDDD.UnitOfWork
+namespace EasyUnitOfWork
 {
     public class DbContextOptions
     {

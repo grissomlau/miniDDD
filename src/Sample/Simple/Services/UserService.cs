@@ -1,8 +1,8 @@
 ﻿using DDD.Simple.Domain;
 using DDD.Simple.IServices;
 using DDD.Simple.IServices.DTO;
+using EasyUnitOfWork;
 using MiniDDD;
-using MiniDDD.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

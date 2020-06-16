@@ -2,9 +2,9 @@
 using System.Linq;
 using DDD.Simple.Domain;
 using DDD.Simple.Domain.Events;
+using EasyUnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using MiniDDD;
-using MiniDDD.UnitOfWork;
 
 namespace DDD.Simple.Repository.EF
 {
@@ -14,7 +14,7 @@ namespace DDD.Simple.Repository.EF
         Model.Order _orderModel;
         public OrderRepository(IUnitOfWork unitOfWork)
         {
-            _dbContext = unitOfWork.GetSqlClient<DbContext>();
+            _dbContext = unitOfWork.GetUowWorker<DbContext>();
         }
         public override Order Get(Guid key)
         {

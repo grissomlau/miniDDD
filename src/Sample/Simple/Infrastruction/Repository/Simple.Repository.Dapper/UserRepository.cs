@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Text;
 using Dapper;
-using MiniDDD.UnitOfWork;
 using DDD.Simple.Model;
 using System.Linq;
 using DDD.Simple.Domain.Events;
+using EasyUnitOfWork;
 
 namespace Simple.Repository.Dapper
 {
@@ -19,7 +19,7 @@ namespace Simple.Repository.Dapper
 
         public UserRepository(IUnitOfWork unitOfWork)
         {
-            _dbConnection = unitOfWork.GetSqlClient<DbConnection>();
+            _dbConnection = unitOfWork.GetUowWorker<DbConnection>();
         }
         public override DDD.Simple.Domain.User Get(Guid key)
         {

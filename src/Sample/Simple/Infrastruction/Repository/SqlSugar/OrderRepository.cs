@@ -1,8 +1,8 @@
 ﻿using System;
 using DDD.Simple.Domain;
 using DDD.Simple.Domain.Events;
+using EasyUnitOfWork;
 using MiniDDD;
-using MiniDDD.UnitOfWork;
 using SqlSugar;
 
 namespace DDD.Simple.Repository.SqlSugar
@@ -14,7 +14,7 @@ namespace DDD.Simple.Repository.SqlSugar
 
         public OrderRepository(IUnitOfWork unitOfWork)
         {
-            _sqlClient = unitOfWork.GetSqlClient<SqlSugarClient>();
+            _sqlClient = unitOfWork.GetUowWorker<SqlSugarClient>();
         }
 
         public override Order Get(Guid key)

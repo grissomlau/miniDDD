@@ -2,9 +2,9 @@
 using System.Linq;
 using DDD.Simple.Domain.Events;
 using DDD.Simple.Model;
+using EasyUnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using MiniDDD;
-using MiniDDD.UnitOfWork;
 using User = DDD.Simple.Domain.User;
 
 namespace DDD.Simple.Repository.EF
@@ -15,7 +15,7 @@ namespace DDD.Simple.Repository.EF
         Model.User _user;
         public UserRepository(IUnitOfWork unitOfWork)
         {
-            _dbContext = unitOfWork.GetSqlClient<DbContext>();
+            _dbContext = unitOfWork.GetUowWorker<DbContext>();
         }
         public override User Get(Guid key)
         {
@@ -51,6 +51,7 @@ namespace DDD.Simple.Repository.EF
             userModel.Name = e.Name;
             userModel.Email = e.Email;
             _dbContext.Set<Model.User>().Add(userModel);
+            //_dbContext.Set<Model.OrderItem>().Add(new OrderItem { Id = Guid.NewGuid() });
             //this._dbContext.Entry<Model.User>(userModel).Reload();
             //_dbContext.Add(userModel);
         }

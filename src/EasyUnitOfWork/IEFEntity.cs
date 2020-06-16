@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace MiniDDD
+namespace EasyUnitOfWork
 {
     /// <summary>
     /// for ef entity
     /// </summary>
-    public interface IEFModel
+    public interface IEFEntity
     {
     }
 }

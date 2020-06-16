@@ -67,3 +67,11 @@
 /src/MiniDDD.UnitOfWork.EF/obj
 /src/MiniDDD.UnitOfWork.Sql/bin
 /src/MiniDDD.UnitOfWork.Sql/obj
+/src/EasyUnitOfWork/bin/Debug
+/src/EasyUnitOfWork/obj
+/src/EasyUnitOfWork.DbCon/bin/Debug
+/src/EasyUnitOfWork.DbCon/obj
+/src/EasyUnitOfWork.EF/bin/Debug
+/src/EasyUnitOfWork.EF/obj
+/src/EasyUnitOfWork.SqlSugar/bin/Debug
+/src/EasyUnitOfWork.SqlSugar/obj

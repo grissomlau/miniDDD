@@ -17,14 +17,14 @@ using Autofac.Util;
 using Autofac.Extensions.DependencyInjection;
 //using DDD.Simple.Repository.EF;
 using Microsoft.Extensions.Configuration.Json;
-using MiniDDD.UnitOfWork;
 //using MiniDDD.UnitOfWork.EF;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using Microsoft.OpenApi.Models;
 using System.Data.Common;
 using MySql.Data.MySqlClient;
-using MiniDDD.UnitOfWork.EF;
+using EasyUnitOfWork;
+using EasyUnitOfWork.EF;
 
 namespace ApiGateway
 {
@@ -86,15 +86,15 @@ namespace ApiGateway
 
             // using sql 
 
-            //builder.RegisterType<MiniDDD.UnitOfWork.Sql.UnitOfWork>().As<IUnitOfWork>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            //builder.RegisterType<EasyUnitOfWorkSql.UnitOfWork>().As<IUnitOfWork>().AsImplementedInterfaces().InstancePerLifetimeScope();
             //builder.RegisterType<DbContextOptions>().SingleInstance();
             //DbProviderFactories.RegisterFactory("MySQL", MySqlClientFactory.Instance);
 
 
             // using ef
 
-            builder.RegisterType<MiniDDD.UnitOfWork.EF.UnitOfWork>().As<IUnitOfWork>().AsImplementedInterfaces().InstancePerLifetimeScope();
-            builder.RegisterType<MiniDDD.UnitOfWork.EF.DefaultDbContext>()
+            builder.RegisterType<EasyUnitOfWork.EF.UnitOfWork>().As<IUnitOfWork>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType<EasyUnitOfWork.EF.DefaultDbContext>()
                 .WithParameter("tableModelAssemblyName", "Simple.Model")
                 .WithParameter("logAction", new Action<LogLevel, string>((logLevel, log) =>
                 {
@@ -108,7 +108,7 @@ namespace ApiGateway
 
             //builder.RegisterType<DbContextOptions>().SingleInstance();
 
-            //builder.RegisterType<MiniDDD.UnitOfWork.SqlSugar.UnitOfWork>().As<IUnitOfWork>()
+            //builder.RegisterType<EasyUnitOfWork.SqlSugar.UnitOfWork>().As<IUnitOfWork>()
             //    .WithParameter("logAction", new Action<string>((sql) =>
             //    {
             //        Debug.WriteLine("Sugar: " + sql);

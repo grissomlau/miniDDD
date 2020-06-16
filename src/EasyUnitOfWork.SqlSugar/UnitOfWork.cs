@@ -4,7 +4,7 @@ using System.Linq;
 using SqlSugar;
 using System.Data;
 
-namespace MiniDDD.UnitOfWork.SqlSugar
+namespace EasyUnitOfWork.SqlSugar
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -19,13 +19,13 @@ namespace MiniDDD.UnitOfWork.SqlSugar
         private bool _disposed = false;
 
         private SqlSugarClient _client;
-        public T GetSqlClient<T>() where T : class
+        public T GetUowWorker<T>() where T : class
         {
             if (_client == null)
             {
                 if (string.IsNullOrEmpty(_options.ProviderName))
                 {
-                    throw new MiniDDDException("DbContextOptions.ProviderName cannot be null or empty, please specify the Sugar.DbType");
+                    throw new UnitOfWorkException("DbContextOptions.ProviderName cannot be null or empty, please specify the Sugar.DbType");
                 }
                 _client = new Sugar.SqlSugarClient(new Sugar.ConnectionConfig
                 {

@@ -3,7 +3,7 @@ using System.Data.Common;
 using System.Collections.Generic;
 using System.Data;
 
-namespace MiniDDD.UnitOfWork.Sql
+namespace EasyUnitOfWork.DbCon
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -12,13 +12,13 @@ namespace MiniDDD.UnitOfWork.Sql
         private bool _disposed = false;
 
         private DbConnection _cnn;
-        public T GetSqlClient<T>() where T : class
+        public T GetUowWorker<T>() where T : class
         {
             if (_cnn == null)
             {
                 if (string.IsNullOrEmpty(_options.ProviderName))
                 {
-                    throw new MiniDDDException("DbContextOptions.ProviderName cannot be null or empty, please specify the SqlProvider");
+                    throw new UnitOfWorkException("DbContextOptions.ProviderName cannot be null or empty, please specify the SqlProvider");
                 }
                 DbProviderFactory factory = DbProviderFactories.GetFactory(_options.ProviderName);
                 _cnn = factory.CreateConnection();

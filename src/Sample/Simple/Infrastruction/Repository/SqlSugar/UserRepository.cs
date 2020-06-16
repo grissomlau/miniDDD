@@ -2,8 +2,8 @@
 using System.Linq;
 using DDD.Simple.Domain.Events;
 using DDD.Simple.Model;
+using EasyUnitOfWork;
 using MiniDDD;
-using MiniDDD.UnitOfWork;
 using SqlSugar;
 using User = DDD.Simple.Domain.User;
 
@@ -22,7 +22,7 @@ namespace DDD.Simple.Repository.SqlSugar
         {
             //_userDao = new BaseDao<Model.User, Guid>(unitOfWork);
             //_userFriendDao = new BaseDao<Model.UserFriend, Guid>(unitOfWork);
-            _sqlClient = unitOfWork.GetSqlClient<SqlSugarClient>();
+            _sqlClient = unitOfWork.GetUowWorker<SqlSugarClient>();
             id = Guid.NewGuid();
         }
         public override User Get(Guid key)

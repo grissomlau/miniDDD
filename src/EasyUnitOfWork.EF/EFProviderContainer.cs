@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Concurrent;
 
-namespace MiniDDD.UnitOfWork.EF
+namespace EasyUnitOfWork.EF
 {
     public sealed class EFProviderContainer
     {

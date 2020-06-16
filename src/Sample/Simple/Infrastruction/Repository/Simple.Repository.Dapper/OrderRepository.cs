@@ -1,10 +1,10 @@
 ﻿using DDD.Simple.Domain;
 using MiniDDD;
-using MiniDDD.UnitOfWork;
 using System;
 using System.Data.Common;
 using Dapper;
 using DDD.Simple.Domain.Events;
+using EasyUnitOfWork;
 
 namespace Simple.Repository.Dapper
 {
@@ -15,7 +15,7 @@ namespace Simple.Repository.Dapper
         DDD.Simple.Model.Order _order;
         public OrderRepository(IUnitOfWork unitOfWork)
         {
-            _dbConnection = unitOfWork.GetSqlClient<DbConnection>();
+            _dbConnection = unitOfWork.GetUowWorker<DbConnection>();
         }
 
         public override Order Get(Guid key)

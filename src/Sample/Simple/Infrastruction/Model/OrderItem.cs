@@ -1,6 +1,12 @@
-﻿namespace DDD.Simple.Model
+﻿using EasyUnitOfWork;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DDD.Simple.Model
 {
-    class OrderItem
+    [Table("OrderItem")]
+    public class OrderItem : IEFEntity
     {
+        public Guid Id { get; set; }
     }
 }

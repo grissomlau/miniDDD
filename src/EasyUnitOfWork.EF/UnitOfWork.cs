@@ -2,18 +2,18 @@
 using System.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace MiniDDD.UnitOfWork.EF
+namespace EasyUnitOfWork.EF
 {
     public class UnitOfWork : IUnitOfWork
     {
         private bool _disposed = false;
 
         private DefaultDbContext _dbContext;
-        public T GetSqlClient<T>() where T : class
+        public T GetUowWorker<T>() where T : class
         {
             if (!typeof(T).IsAssignableFrom(typeof(DefaultDbContext)))
             {
-                throw new Exception($"cannot convert {typeof(T)} to {typeof(DefaultDbContext)}");
+                throw new UnitOfWorkException($"cannot convert {typeof(T)} to {typeof(DefaultDbContext)}");
             }
             return _dbContext as T;
         }

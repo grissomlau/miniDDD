@@ -1,13 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using MiniDDD;
+using EasyUnitOfWork;
 using SqlSugar;
 
 namespace DDD.Simple.Model
 {
     [Table("UserFriend")]
     [SugarTable("UserFriend")]
-    public class UserFriend : IEFModel
+    public class UserFriend : IEFEntity
     {
         [SugarColumn(IsPrimaryKey = true)]
         public Guid Id { get; set; }
