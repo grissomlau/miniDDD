@@ -9,5 +9,13 @@
     <Authors>grissomlau@qq.com</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>grissomlau@qq.com</Company>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
 </Project>
